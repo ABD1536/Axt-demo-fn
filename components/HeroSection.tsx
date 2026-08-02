@@ -155,18 +155,14 @@ export default function HeroSection() {
         </div>
 
         {/* 3. 3 Image Cards */}
-        <div className="hero-v2-cards" style={{ marginTop: "1.25rem" }}>
+        <div className="hero-v2-cards">
           {cards.map((card, i) => (
-            <div
-              key={i}
-              className="hero-v2-card"
-              style={{ width: "145px", height: "195px", position: "relative" }}
-            >
+            <div key={i} className="hero-v2-card">
               <Image
                 src={card.src}
                 alt={card.alt}
                 fill
-                sizes="145px"
+                sizes="(max-width: 768px) 30vw, 145px"
                 style={{ objectFit: "cover" }}
                 priority={i === 0}
               />

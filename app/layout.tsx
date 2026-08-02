@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import SmoothScroll from "@/components/SmoothScroll";
+import Preloader from "@/components/Preloader";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -43,7 +45,10 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body suppressHydrationWarning={true}>{children}</body>
+      <body suppressHydrationWarning={true}>
+        <Preloader />
+        <SmoothScroll>{children}</SmoothScroll>
+      </body>
     </html>
   );
 }
