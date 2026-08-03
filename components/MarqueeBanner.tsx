@@ -123,13 +123,16 @@ export default function MarqueeBanner() {
     <section className="partner-marquee-section" aria-label="Partner Brands">
       <div className="partner-marquee-container">
         
-        {/* Section Heading with Green Highlighted Pill */}
+        {/* Section Heading: Exact 3-Line Layout across ALL devices */}
         <h2 className="partner-marquee-title">
-          <span>The Visionaries and </span>
-          <span className="partner-badge-pill">Industry Leaders</span>
-          <span> We&apos;ve</span>
-          <br className="partner-title-br" />
-          <span className="partner-title-line2">Proudly Partnered.</span>
+          <span className="partner-title-line">The Visionaries and</span>
+          <br />
+          <span className="partner-title-line">
+            <span className="partner-badge-pill">Industry Leaders</span>
+            <span className="partner-title-weve"> We&apos;ve</span>
+          </span>
+          <br />
+          <span className="partner-title-line">Proudly Partnered.</span>
         </h2>
 
         {/* Continuous Looping Logo Marquee */}

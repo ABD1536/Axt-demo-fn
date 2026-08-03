@@ -1572,13 +1572,17 @@ body::before {
 
 .partner-marquee-title {
   font-family: "Syne", sans-serif;
-  font-size: clamp(1.4rem, 4.2vw, 2.75rem);
+  font-size: clamp(1.2rem, 3.2vw, 2.35rem);
   font-weight: 700;
   color: #000000;
   text-align: center;
-  line-height: 1.35;
+  line-height: 1.45;
   letter-spacing: -0.02em;
-  padding: 0 1.25rem;
+  padding: 0 1rem;
+}
+
+.partner-title-line {
+  display: inline-block;
 }
 
 /* Electric Neon Green Highlighted Badge Pill — White Text */
@@ -1594,11 +1598,6 @@ body::before {
   box-shadow: 0 4px 20px rgba(10, 205, 0, 0.35);
   margin: 0 0.25em;
   vertical-align: middle;
-}
-
-.partner-title-line2 {
-  display: inline-block;
-  margin-top: 0.2em;
 }
 
 /* Infinite Marquee Track Wrapper */
