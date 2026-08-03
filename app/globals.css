@@ -1205,7 +1205,7 @@ body::before {
   font-optical-sizing: auto;
   font-weight: 800;
   font-style: normal;
-  font-size: clamp(2rem, 7.5vw, 6.2rem);
+  font-size: clamp(1.4rem, 6.8vw, 6.2rem);
   line-height: 1.04;
   letter-spacing: -0.02em;
   color: #ffffff;
@@ -1213,8 +1213,8 @@ body::before {
   margin: 0 auto;
   width: 100%;
   max-width: 100%;
-  word-break: normal;
-  overflow-wrap: break-word;
+  word-break: keep-all;
+  overflow-wrap: normal;
 }
 
 .hero-v2-block-text {
@@ -1222,6 +1222,7 @@ body::before {
   font-family: "Syne", sans-serif;
   font-weight: 800;
   font-style: normal;
+  white-space: nowrap;
 }
 
 /* CTA Buttons Centered — Montserrat Font */
@@ -1518,15 +1519,21 @@ body::before {
 
 .preloader-content {
   text-align: center;
+  width: 100%;
+  max-width: 90vw;
+  margin: 0 auto;
+  padding: 0 1rem;
+  box-sizing: border-box;
 }
 
 .preloader-logo {
   font-family: "Syne", sans-serif;
-  font-size: clamp(3rem, 9vw, 6rem);
+  font-size: clamp(1.6rem, 8.5vw, 6rem);
   font-weight: 800;
-  letter-spacing: 0.12em;
+  letter-spacing: clamp(0.04em, 1.5vw, 0.12em);
   color: #ffffff;
   text-transform: uppercase;
+  white-space: nowrap;
   animation: preloader-pulse 1.6s ease-in-out infinite;
 }
 
@@ -1538,6 +1545,266 @@ body::before {
   50% {
     text-shadow: 0 0 30px rgba(10, 205, 0, 0.9), 0 0 60px rgba(10, 205, 0, 0.5);
     transform: scale(1.03);
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   PARTNER BRAND MARQUEE SECTION (PURE WHITE BG & BLACK TEXT)
+══════════════════════════════════════════════════════════════ */
+.partner-marquee-section {
+  position: relative;
+  background-color: #ffffff;
+  padding: clamp(3.5rem, 7vw, 6rem) 0;
+  overflow: hidden;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.partner-marquee-container {
+  width: 100%;
+  max-width: 1360px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(2rem, 4vw, 3rem);
+}
+
+.partner-marquee-title {
+  font-family: "Syne", sans-serif;
+  font-size: clamp(1.4rem, 4.2vw, 2.75rem);
+  font-weight: 700;
+  color: #000000;
+  text-align: center;
+  line-height: 1.35;
+  letter-spacing: -0.02em;
+  padding: 0 1.25rem;
+}
+
+/* Electric Neon Green Highlighted Badge Pill — White Text */
+.partner-badge-pill {
+  display: inline-block;
+  font-family: "Syne", sans-serif;
+  font-style: italic;
+  font-weight: 700;
+  color: #ffffff;
+  background: linear-gradient(135deg, #0acd00 0%, #089e00 100%);
+  padding: 0.15em 0.75em;
+  border-radius: 9999px;
+  box-shadow: 0 4px 20px rgba(10, 205, 0, 0.35);
+  margin: 0 0.25em;
+  vertical-align: middle;
+}
+
+.partner-title-line2 {
+  display: inline-block;
+  margin-top: 0.2em;
+}
+
+/* Infinite Marquee Track Wrapper */
+.partner-marquee-wrapper {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black 12%,
+    black 88%,
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black 12%,
+    black 88%,
+    transparent 100%
+  );
+}
+
+.partner-marquee-track {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  width: max-content;
+  animation: partner-marquee-loop 32s linear infinite;
+}
+
+.partner-marquee-wrapper:hover .partner-marquee-track {
+  animation-play-state: paused;
+}
+
+.partner-logo-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: clamp(140px, 20vw, 175px);
+  height: clamp(65px, 9vw, 78px);
+  background: #f4f4f6;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  padding: 0.75rem 1.25rem;
+  flex-shrink: 0;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+  transition: all 0.35s ease;
+  opacity: 0.9;
+}
+
+.partner-logo-card:hover {
+  opacity: 1;
+  border-color: rgba(10, 205, 0, 0.6);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(10, 205, 0, 0.2);
+  background: #ffffff;
+}
+
+@keyframes partner-marquee-loop {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-33.333%);
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   PREMIUM QUALITY AT EVERY STAGE SECTION (WHITE BG & 4 CARDS)
+══════════════════════════════════════════════════════════════ */
+.stage-showcase-section {
+  position: relative;
+  background-color: #ffffff;
+  padding: clamp(3.5rem, 8vw, 6.5rem) clamp(1rem, 4vw, 3.5rem);
+  overflow: hidden;
+}
+
+.stage-showcase-container {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(2rem, 5vw, 3.5rem);
+}
+
+/* Top Badge {01} */
+.stage-tag-badge {
+  font-family: "Syne", sans-serif;
+  font-weight: 800;
+  font-size: clamp(1.2rem, 3vw, 1.5rem);
+  color: #0acd00;
+  letter-spacing: 0.05em;
+  margin-bottom: -0.5rem;
+}
+
+/* Headline: PREMIUM QUALITY AT EVERY STAGE */
+.stage-showcase-h2 {
+  font-family: "Syne", sans-serif;
+  font-weight: 800;
+  font-size: clamp(1.8rem, 5.5vw, 4.5rem);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  color: #000000;
+  text-align: center;
+  text-transform: uppercase;
+  margin: 0 auto;
+}
+
+.stage-block {
+  display: block;
+}
+
+/* 4 Feature Cards Grid */
+.stage-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(1rem, 2.5vw, 1.75rem);
+  width: 100%;
+}
+
+.stage-card {
+  position: relative;
+  border-radius: clamp(18px, 2.5vw, 24px);
+  overflow: hidden;
+  aspect-ratio: 3 / 4;
+  background: #f4f4f6;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.08);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+}
+
+.stage-card-img-wrapper {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.stage-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 50px rgba(10, 205, 0, 0.25), 0 0 0 1px rgba(10, 205, 0, 0.4);
+}
+
+.stage-card:hover .stage-card-img-wrapper {
+  transform: scale(1.05);
+}
+
+/* Bottom White Pill Badge inside each card */
+.stage-card-pill {
+  position: absolute;
+  bottom: clamp(0.85rem, 2.5vw, 1.25rem);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 1.15rem;
+  background: #ffffff;
+  color: #000000;
+  border-radius: 9999px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  white-space: nowrap;
+  backdrop-filter: blur(8px);
+}
+
+.stage-pill-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #0acd00;
+  box-shadow: 0 0 8px rgba(10, 205, 0, 0.8);
+  flex-shrink: 0;
+}
+
+.stage-pill-text {
+  font-family: var(--font-sans);
+  font-size: clamp(0.72rem, 2vw, 0.82rem);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #000000;
+  text-transform: uppercase;
+}
+
+/* Responsive Grid for Mobile & Tablet */
+@media (max-width: 900px) {
+  .stage-cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .stage-cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.85rem;
+  }
+  .stage-card-pill {
+    padding: 0.4rem 0.8rem;
+    gap: 0.35rem;
+  }
+  .stage-pill-text {
+    font-size: 0.65rem;
   }
 }
 
