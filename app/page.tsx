@@ -1,7 +1,8 @@
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import MarqueeBanner from "@/components/MarqueeBanner";
-import StageShowcaseSection from "@/components/StageShowcaseSection";
+import AboutSection from "@/components/AboutSection";
+import ParallaxVideoSection from "@/components/ParallaxVideoSection";
 import ServicesSection from "@/components/ServicesSection";
 import WorkHighlightSection from "@/components/WorkHighlightSection";
 import ProcessSection from "@/components/ProcessSection";
@@ -16,7 +17,8 @@ export default function Home() {
       <main id="main-content">
         <HeroSection />
         <MarqueeBanner />
-        <StageShowcaseSection />
+        <AboutSection />
+        <ParallaxVideoSection />
         <ServicesSection />
         <WorkHighlightSection />
         <ProcessSection />
