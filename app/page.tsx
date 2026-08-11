@@ -46,7 +46,7 @@ export default function Home() {
             scale,
             borderRadius,
           }}
-          className="relative z-10 min-h-screen bg-[#ffffff] shadow-[0_-30px_80px_rgba(0,0,0,0.95)] origin-top overflow-hidden"
+          className="relative z-10 min-h-screen bg-[#ffffff] shadow-[0_-30px_80px_rgba(0,0,0,0.95)] origin-top"
         >
           <MarqueeBanner />
           <AboutSection />

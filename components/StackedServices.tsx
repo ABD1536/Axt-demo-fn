@@ -11,53 +11,48 @@ interface ServiceCardData {
   image: string;
   href: string;
   topOffset: number;
-  zIndex: number;
 }
 
 const serviceCards: ServiceCardData[] = [
   {
-    id: "web-app-dev",
-    badge: "[WEB & APP DEVELOPMENT]",
-    title: "CUSTOM WEB & NATIVE APP DEVELOPMENT",
+    id: "web-development",
+    badge: "[WEB DEVELOPMENT]",
+    title: "CUSTOM WEB DEVELOPMENT",
     description:
-      "High-performance web applications, scalable enterprise platforms, and native iOS/Android solutions engineered with modern Next.js, TypeScript, and high-availability cloud architectures.",
+      "High-performance web applications, scalable enterprise platforms, and native web solutions engineered with modern Next.js, TypeScript, and high-availability cloud architectures.",
     image: "/images/stacked_service_1.jpg",
-    href: "/services#web-app",
-    topOffset: 90,
-    zIndex: 10,
+    href: "/services#web-dev",
+    topOffset: 100,
+  },
+  {
+    id: "lead-generation",
+    badge: "[LEAD GENERATION]",
+    title: "B2B LEAD GENERATION & GROWTH",
+    description:
+      "Targeted data acquisition, high-converting outbound strategies, and automated funnel optimization designed to flood your sales pipeline with qualified B2B prospects.",
+    image: "/images/stacked_service_2.jpg",
+    href: "/services#lead-gen",
+    topOffset: 145,
+  },
+  {
+    id: "crm-solutions",
+    badge: "[CRM SOLUTIONS]",
+    title: "ENTERPRISE CRM & WORKFLOW SOLUTIONS",
+    description:
+      "Custom CRM architectures, seamless third-party API integrations, sales pipeline tracking, and client management systems tailored for maximum operational efficiency.",
+    image: "/images/stacked_service_3.jpg",
+    href: "/services#crm",
+    topOffset: 190,
   },
   {
     id: "ai-automation",
-    badge: "[AI & AUTOMATION INTEGRATION]",
-    title: "INTELLIGENT AI AUTOMATION & AGENTS",
+    badge: "[AI & AUTOMATION]",
+    title: "INTELLIGENT AI & AUTOMATION AGENTS",
     description:
-      "Empowering B2B operations with custom LLM integrations, automated data pipelines, computer vision models, and autonomous AI agents designed for seamless business workflow optimization.",
-    image: "/images/stacked_service_2.jpg",
-    href: "/services#ai",
-    topOffset: 135,
-    zIndex: 20,
-  },
-  {
-    id: "ui-ux-design",
-    badge: "[UI/UX & PRODUCT DESIGN]",
-    title: "STRATEGIC UI/UX & BRAND DESIGN",
-    description:
-      "User-centered digital product design, interactive wireframing, high-converting design systems, and avant-garde visual architectures built for maximum conversion and brand distinction.",
-    image: "/images/stacked_service_3.jpg",
-    href: "/services#design",
-    topOffset: 180,
-    zIndex: 30,
-  },
-  {
-    id: "enterprise-it",
-    badge: "[CUSTOM IT & B2B SOLUTIONS]",
-    title: "ENTERPRISE IT & CLOUD INFRASTRUCTURE",
-    description:
-      "Robust cloud infrastructure setup, WebGL 3D visualizations, enterprise cybersecurity protocols, and high-frequency database optimization built for enterprise scaling.",
+      "Empowering B2B operations with custom LLM integrations, automated data workflows, computer vision models, and autonomous AI agents designed for business scaling.",
     image: "/images/stacked_service_4.jpg",
-    href: "/services#infrastructure",
-    topOffset: 225,
-    zIndex: 40,
+    href: "/services#ai",
+    topOffset: 235,
   },
 ];
 
@@ -85,11 +80,11 @@ export default function StackedServices() {
               style={{
                 position: "sticky",
                 top: `${card.topOffset}px`,
-                zIndex: card.zIndex,
+                zIndex: (index + 1) * 10,
               }}
             >
               <div className="stacked-card-box">
-                {/* Top Card Deck Tab Header Bar */}
+                {/* Top Deck Header Tab Bar */}
                 <div className="stacked-card-tab-bar">
                   <div className="tab-left">
                     <span className="tab-index">0{index + 1}</span>
@@ -98,7 +93,7 @@ export default function StackedServices() {
                   </div>
                   <div className="tab-right">
                     <span className="tab-status-dot" aria-hidden="true" />
-                    <span className="tab-status-text">SERVICE 0{index + 1}</span>
+                    <span className="tab-status-text">CARD 0{index + 1} OF 0{serviceCards.length}</span>
                   </div>
                 </div>
 

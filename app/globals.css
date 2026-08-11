@@ -2545,16 +2545,16 @@ body::before {
 .stacked-cards-list {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: clamp(4rem, 8vh, 8rem);
   position: relative;
   width: 100%;
-  padding-bottom: 4rem;
+  padding-bottom: clamp(6rem, 10vh, 10rem);
 }
 
 /* Sticky Card Item */
 .stacked-card-item {
   width: 100%;
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  margin-bottom: clamp(2rem, 4vh, 4rem);
 }
 
 .stacked-card-box {
@@ -2688,11 +2688,13 @@ body::before {
 
 .stacked-card-title {
   font-family: "Syne", sans-serif;
-  font-size: clamp(1.6rem, 3.2vw, 2.6rem);
+  font-size: clamp(1.4rem, 3.2vw, 2.6rem);
   font-weight: 800;
   line-height: 1.15;
   color: #000000;
   letter-spacing: -0.02em;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .stacked-card-desc {
@@ -2701,6 +2703,7 @@ body::before {
   font-weight: 500;
   line-height: 1.65;
   color: #4b5563;
+  overflow-wrap: break-word;
 }
 
 .stacked-card-btn {
@@ -2709,25 +2712,26 @@ body::before {
   gap: 0.75rem;
   padding: 0.75rem 1.75rem;
   border-radius: 9999px;
-  border: 1.5px solid #000000;
-  background-color: #000000;
-  color: #ffffff;
+  border: 1.5px solid #0acd00;
+  background-color: #0acd00;
+  color: #000000;
   font-family: var(--font-sans);
   font-size: 0.78rem;
-  font-weight: 700;
+  font-weight: 800;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   text-decoration: none;
   transition: all 0.3s ease;
   margin-top: 0.5rem;
+  box-shadow: 0 4px 15px rgba(10, 205, 0, 0.25);
 }
 
 .stacked-card-btn:hover {
-  background-color: #0acd00;
-  border-color: #0acd00;
-  color: #000000;
+  background-color: #000000;
+  border-color: #000000;
+  color: #ffffff;
   transform: translateY(-2px);
-  box-shadow: 0 10px 25px rgba(10, 205, 0, 0.4);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
 }
 
 .stacked-card-btn .btn-arrow {
@@ -2739,16 +2743,86 @@ body::before {
   transform: translateX(4px);
 }
 
-/* Responsive Layout */
+/* Responsive Layout for Tablets, Mobile & Small Devices */
 @media (max-width: 1024px) {
   .stacked-card-inner {
     grid-template-columns: repeat(1, 1fr);
+    gap: 1.5rem;
+    padding: 1.5rem;
   }
   .stacked-card-media {
     grid-column: span 1;
   }
   .stacked-card-content {
     grid-column: span 1;
+  }
+  .stacked-image-wrapper {
+    aspect-ratio: 16 / 9;
+  }
+}
+
+@media (max-width: 768px) {
+  .stacked-services-section {
+    padding: 3.5rem 1rem;
+  }
+  .stacked-card-tab-bar {
+    padding: 0.65rem 1rem;
+  }
+  .tab-badge {
+    font-size: 0.62rem;
+  }
+  .tab-status-text {
+    font-size: 0.6rem;
+  }
+  .stacked-card-inner {
+    padding: 1.25rem 1rem;
+    gap: 1.25rem;
+  }
+  .stacked-card-content {
+    align-items: center;
+    text-align: center;
+  }
+  .stacked-card-title {
+    font-size: 1.25rem;
+    text-align: center;
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
+  .stacked-card-desc {
+    font-size: 0.85rem;
+    text-align: center;
+  }
+  .stacked-card-btn {
+    padding: 0.65rem 1.35rem;
+    font-size: 0.72rem;
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .stacked-services-header {
+    gap: 0.85rem;
+  }
+  .stacked-header-title {
+    font-size: 1.4rem;
+  }
+  .stacked-card-box {
+    border-radius: 20px;
+  }
+  .stacked-card-title {
+    font-size: 1.12rem;
+    letter-spacing: -0.01em;
+  }
+  .stacked-card-desc {
+    font-size: 0.8rem;
+  }
+  .stacked-image-wrapper {
+    border-radius: 14px;
+    aspect-ratio: 16 / 9.5;
+  }
+  .tab-right {
+    display: none;
   }
 }
 
