@@ -9,11 +9,10 @@ import AboutSection from "@/components/AboutSection";
 import ParallaxVideoSection from "@/components/ParallaxVideoSection";
 import StatsCounterSection from "@/components/StatsCounterSection";
 import StackedServices from "@/components/StackedServices";
-import ServicesSection from "@/components/ServicesSection";
-import WorkHighlightSection from "@/components/WorkHighlightSection";
-import ProcessSection from "@/components/ProcessSection";
+import ProjectShowcase from "@/components/ProjectShowcase";
 import TestimonialsSection from "@/components/TestimonialsSection";
-import ContactSection from "@/components/ContactSection";
+import BlogSection from "@/components/BlogSection";
+import FaqSection from "@/components/FaqSection";
 import Footer from "@/components/Footer";
 
 export default function Home() {
@@ -26,7 +25,6 @@ export default function Home() {
 
   // Dynamic transforms for side gap shrinkage & expansion on scroll
   const scale = useTransform(scrollYProgress, [0, 0.12], [0.93, 1]);
-  const borderRadius = useTransform(scrollYProgress, [0, 0.12], ["36px", "0px"]);
 
   return (
     <>
@@ -44,20 +42,18 @@ export default function Home() {
         <motion.div
           style={{
             scale,
-            borderRadius,
           }}
-          className="relative z-10 min-h-screen bg-[#ffffff] shadow-[0_-30px_80px_rgba(0,0,0,0.95)] origin-top"
+          className="relative z-10 min-h-screen bg-[#ffffff] shadow-[0_-30px_80px_rgba(0,0,0,0.95)] origin-top rounded-t-[40px] sm:rounded-t-[56px]"
         >
           <MarqueeBanner />
           <AboutSection />
           <ParallaxVideoSection />
           <StatsCounterSection />
           <StackedServices />
-          <ServicesSection />
-          <WorkHighlightSection />
-          <ProcessSection />
+          <ProjectShowcase />
           <TestimonialsSection />
-          <ContactSection />
+          <BlogSection />
+          <FaqSection />
           <Footer />
         </motion.div>
       </main>

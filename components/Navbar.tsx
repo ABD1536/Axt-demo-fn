@@ -1,145 +1,239 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { motion, AnimatePresence } from "framer-motion";
+import { Moon, X, ArrowRight } from "lucide-react";
 
-const navLinks = [
-  { label: "HOME", href: "/" },
-  { label: "ABOUT", href: "/about" },
-  { label: "SERVICES", href: "/services" },
-  { label: "WORK", href: "/work" },
-  { label: "BLOG", href: "/blog" },
-  { label: "CONTACT", href: "/contact" },
+/* ── Navigation Data ─────────────────────────────────────────── */
+interface NavItem {
+  name: string;
+  href: string;
+  active?: boolean;
+}
+
+const navItems: NavItem[] = [
+  { name: "HOME", href: "/", active: true },
+  { name: "ABOUT", href: "/about" },
+  { name: "SERVICES", href: "/services" },
+  { name: "WORK", href: "/work" },
+  { name: "BLOG", href: "/blog" },
+  { name: "CONTACT", href: "/contact" },
 ];
 
+/* ── Navbar Component ────────────────────────────────────────── */
 export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
-  const [mobileOpen, setMobileOpen] = useState(false);
-  const pathname = usePathname();
+  const [isOpen, setIsOpen] = useState(false);
 
+  const closeMenu = useCallback(() => setIsOpen(false), []);
+
+  /* Lock body scroll when menu is open */
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 40);
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isOpen]);
+
+  /* Close on ESC */
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") closeMenu();
+    };
+    window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
+  }, [closeMenu]);
 
   return (
     <>
-      <header className={`navbar ${scrolled ? "scrolled" : ""}`} role="banner">
-        {/* Logo */}
-        <Link href="/" className="nav-logo" aria-label="Axtrait home" onClick={() => setMobileOpen(false)}>
-          Ax<span>trait</span>
-        </Link>
+      {/* ── Backdrop Overlay ────────────────────────────────── */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            key="backdrop"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.25, ease: "easeOut" }}
+            onClick={closeMenu}
+            style={{
+              position: "fixed",
+              inset: 0,
+              background: "rgba(0,0,0,0.75)",
+              backdropFilter: "blur(5px)",
+              WebkitBackdropFilter: "blur(5px)",
+              zIndex: 9998,
+            }}
+          />
+        )}
+      </AnimatePresence>
 
-        {/* Desktop nav */}
-        <nav aria-label="Primary navigation">
-          <ul className="nav-links">
-            {navLinks.map((link) => {
-              const isActive = pathname === link.href;
-              return (
-                <li key={link.label}>
-                  <Link
-                    href={link.href}
-                    className={`nav-link ${isActive ? "active" : ""}`}
-                    style={isActive ? { color: "var(--text-primary)", fontWeight: 600 } : {}}
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
-        </nav>
-
-        {/* CTA */}
-        <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-          <Link
-            href="/contact"
-            className="btn-primary nav-cta"
-            onClick={() => setMobileOpen(false)}
-            id="nav-get-started"
-          >
-            Get Started
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              aria-hidden="true"
-            >
-              <path d="M5 12h14M12 5l7 7-7 7" />
-            </svg>
-          </Link>
-
-          {/* Mobile toggle */}
-          <button
-            className="nav-toggle"
-            aria-label="Toggle mobile menu"
-            aria-expanded={mobileOpen}
-            onClick={() => setMobileOpen((o) => !o)}
-          >
-            <span
-              style={
-                mobileOpen
-                  ? {
-                      transform: "rotate(45deg) translate(5px, 5px)",
-                      background: "var(--text-primary)",
-                    }
-                  : {}
-              }
-            />
-            <span
-              style={
-                mobileOpen
-                  ? { opacity: 0, transform: "translateX(-10px)" }
-                  : {}
-              }
-            />
-            <span
-              style={
-                mobileOpen
-                  ? {
-                      transform: "rotate(-45deg) translate(5px, -5px)",
-                      background: "var(--text-primary)",
-                    }
-                  : {}
-              }
-            />
-          </button>
-        </div>
-      </header>
-
-      {/* Mobile nav drawer */}
+      {/* ── Fixed Navbar Wrapper ─────────────────────────────── */}
       <nav
-        className={`mobile-nav ${mobileOpen ? "open" : ""}`}
-        aria-label="Mobile navigation"
+        role="navigation"
+        aria-label="Primary Navigation"
+        className="axtrait-navbar-wrapper"
       >
-        {navLinks.map((link) => {
-          const isActive = pathname === link.href;
-          return (
+        <div className="axtrait-navbar-container">
+          {/* ── Top Bar (always visible) ─────────────────────── */}
+          <div className="axtrait-navbar-top">
+            {/* LEFT: Start Project Button (Desktop only) */}
             <Link
-              key={link.label}
-              href={link.href}
-              className={`nav-link ${isActive ? "active" : ""}`}
-              onClick={() => setMobileOpen(false)}
+              href="/contact"
+              onClick={closeMenu}
+              className="axtrait-nav-cta"
             >
-              {link.label}
+              START PROJECT
             </Link>
-          );
-        })}
-        <Link
-          href="/contact"
-          className="btn-primary"
-          style={{ alignSelf: "flex-start", marginTop: "0.5rem" }}
-          onClick={() => setMobileOpen(false)}
-        >
-          Get Started →
-        </Link>
+
+            {/* LOGO: Left on mobile/tablet, centered on desktop */}
+            <div className="axtrait-nav-logo-wrap">
+              <Link
+                href="/"
+                onClick={closeMenu}
+                className="axtrait-nav-logo-link"
+              >
+                <img
+                  src="/AXTRAIT%20WEB%20LOGO.png"
+                  alt="AXTRAIT Logo"
+                  loading="eager"
+                  decoding="async"
+                  className="axtrait-nav-logo-img"
+                />
+              </Link>
+            </div>
+
+            {/* RIGHT: Theme Toggle + Hamburger/Close */}
+            <div className="axtrait-nav-controls">
+              {/* Moon Toggle */}
+              <button
+                type="button"
+                aria-label="Toggle theme"
+                className="axtrait-nav-theme-btn"
+              >
+                <Moon className="w-[15px] h-[15px]" />
+              </button>
+
+              {/* Hamburger / X */}
+              <button
+                type="button"
+                onClick={() => setIsOpen((v) => !v)}
+                aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
+                aria-expanded={isOpen}
+                className="axtrait-nav-menu-btn"
+              >
+                {isOpen ? (
+                  <X className="w-5 h-5" />
+                ) : (
+                  <svg
+                    width="20"
+                    height="14"
+                    viewBox="0 0 20 14"
+                    fill="none"
+                  >
+                    <line
+                      x1="0"
+                      y1="2"
+                      x2="20"
+                      y2="2"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                    />
+                    <line
+                      x1="0"
+                      y1="7"
+                      x2="20"
+                      y2="7"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                    />
+                    <line
+                      x1="0"
+                      y1="12"
+                      x2="20"
+                      y2="12"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                    />
+                  </svg>
+                )}
+              </button>
+            </div>
+          </div>
+
+          {/* ── Expandable Menu Panel ─────────────────────────── */}
+          <AnimatePresence>
+            {isOpen && (
+              <motion.div
+                key="menu-panel"
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: "auto", opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{ duration: 0.35, ease: [0.25, 0.46, 0.45, 0.94] }}
+                style={{ overflow: "hidden", borderTop: "1px solid #f0f0f0" }}
+              >
+                <div className="axtrait-menu-content">
+                  {/* ── Two-Column Layout ──────────────────────── */}
+                  <div className="axtrait-menu-grid">
+                    {/* LEFT: Navigation Links (Text only, no icons) */}
+                    <div className="axtrait-menu-links">
+                      {navItems.map((item) => {
+                        const isActive = item.active;
+                        return (
+                          <Link
+                            key={item.name}
+                            href={item.href}
+                            onClick={closeMenu}
+                            className={`axtrait-menu-link ${isActive ? "active" : ""}`}
+                          >
+                            <span>{item.name}</span>
+                          </Link>
+                        );
+                      })}
+                    </div>
+
+                    {/* RIGHT: Visual Banner */}
+                    <div className="axtrait-menu-banner">
+                      <img
+                        src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=1200&auto=format&fit=crop"
+                        alt="AXTRAIT Futuristic Interface"
+                        className="axtrait-menu-banner-img"
+                        loading="lazy"
+                      />
+                      <div className="axtrait-menu-banner-overlay" />
+
+                      {/* About Us CTA */}
+                      <div className="axtrait-menu-banner-cta">
+                        <Link
+                          href="/about"
+                          onClick={closeMenu}
+                          className="axtrait-menu-about-btn"
+                        >
+                          About Us
+                          <ArrowRight className="w-[15px] h-[15px]" />
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* ── Menu Footer ─────────────────────────────── */}
+                  <div className="axtrait-menu-footer">
+                    <span>A modern digital design agency</span>
+                    <span>Est. 2026</span>
+                    <span>Accepting Projects</span>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
       </nav>
     </>
   );

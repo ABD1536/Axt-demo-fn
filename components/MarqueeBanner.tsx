@@ -120,7 +120,7 @@ const marqueeList = [...brands, ...brands, ...brands];
 
 export default function MarqueeBanner() {
   return (
-    <section className="partner-marquee-section" aria-label="Partner Brands">
+    <section className="partner-marquee-section rounded-t-[40px] sm:rounded-t-[56px] overflow-hidden" aria-label="Partner Brands">
       <div className="partner-marquee-container">
         
         {/* Section Heading: Exact 3-Line Layout across ALL devices */}
