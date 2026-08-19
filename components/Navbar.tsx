@@ -78,7 +78,7 @@ export default function Navbar() {
         aria-label="Primary Navigation"
         className="axtrait-navbar-wrapper"
       >
-        <div className="axtrait-navbar-container">
+        <div className={`axtrait-navbar-container ${isOpen ? "is-open" : ""}`}>
           {/* ── Top Bar (always visible) ─────────────────────── */}
           <div className="axtrait-navbar-top">
             {/* LEFT: Start Project Button (Desktop only) */}

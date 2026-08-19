@@ -126,6 +126,30 @@ export default function StackedServices() {
             </div>
           ))}
         </div>
+
+        {/* View More Services */}
+        <div style={{ display: "flex", justifyContent: "center", alignItems: "center", paddingTop: "1rem", paddingBottom: "1rem" }}>
+          <Link
+            href="/services"
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "0.5rem",
+              color: "rgba(255,255,255,0.5)",
+              fontSize: "0.85rem",
+              fontFamily: "var(--font-sans)",
+              fontWeight: 600,
+              letterSpacing: "0.08em",
+              textTransform: "uppercase" as const,
+              textDecoration: "none",
+              transition: "color 0.2s",
+            }}
+            className="stacked-view-more-link"
+          >
+            <span>View More Services</span>
+            <span style={{ fontSize: "1rem" }}>→</span>
+          </Link>
+        </div>
       </div>
     </section>
   );

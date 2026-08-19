@@ -48,6 +48,8 @@ html {
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: clip;
+  width: 100%;
 }
 
 body {
@@ -56,6 +58,8 @@ body {
   color: var(--text-primary);
   line-height: 1.6;
   min-height: 100vh;
+  overflow-x: clip;
+  width: 100%;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -2530,7 +2534,7 @@ body::before {
   width: 100%;
   background-color: #000000;
   color: #ffffff;
-  padding: clamp(4rem, 8vw, 7rem) clamp(1rem, 4vw, 3rem);
+  padding: clamp(4rem, 8vw, 7rem) clamp(1rem, 4vw, 3rem) clamp(2rem, 4vw, 3.5rem);
   box-sizing: border-box;
 }
 
@@ -2592,13 +2596,21 @@ body::before {
   gap: 3.5rem;
   position: relative;
   width: 100%;
-  padding-bottom: clamp(8rem, 14vh, 14rem);
+  padding-bottom: clamp(2.5rem, 5vh, 4.5rem);
 }
 
 /* Sticky Card Item */
 .stacked-card-item {
   width: 100%;
   margin-bottom: clamp(2.5rem, 5vh, 4.5rem);
+}
+
+.stacked-card-item:last-child {
+  margin-bottom: 0;
+}
+
+.stacked-view-more-link:hover {
+  color: #0acd00 !important;
 }
 
 .stacked-card-box {
@@ -2809,7 +2821,7 @@ body::before {
 
 @media (max-width: 768px) {
   .stacked-services-section {
-    padding: 3.5rem 1rem;
+    padding: 3.5rem 1rem 2rem;
   }
   .stacked-card-tab-bar {
     padding: 0.65rem 1rem;
@@ -3251,6 +3263,39 @@ body::before {
   }
 }
 
+@media (max-width: 768px) {
+  .testimonials-header-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.25rem;
+  }
+
+  .testimonials-title {
+    font-size: clamp(1.85rem, 7.5vw, 2.4rem);
+    line-height: 1.12;
+  }
+
+  .testimonials-header-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .rating-num {
+    font-size: 2.8rem;
+    line-height: 1;
+  }
+
+  .star-row {
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+  }
+
+  .review-count {
+    font-size: 0.75rem;
+  }
+}
+
 /* ══════════════════════════════════════════════════════════════
    WHITE FAQ SECTION (6 ACCORDIONS & LEFT CTA BRIEF BOX)
    ══════════════════════════════════════════════════════════════ */
@@ -3525,14 +3570,14 @@ body::before {
 .psc-section {
   width: 100%;
   background-color: #ffffff;
-  padding: clamp(5rem, 10vw, 9rem) clamp(3rem, 6.5vw, 5.5rem);
+  padding: clamp(4rem, 8vw, 8rem) clamp(1.25rem, 5vw, 5rem);
   box-sizing: border-box;
   overflow: hidden;
 }
 
 .psc-header {
   max-width: 1400px;
-  margin: 0 auto clamp(3rem, 6vw, 5rem);
+  margin: 0 auto clamp(2.5rem, 5vw, 5rem);
   padding: 0;
 }
 
@@ -3562,13 +3607,13 @@ body::before {
 
 .psc-title {
   margin: 0;
-  line-height: 0.9;
+  line-height: 0.95;
 }
 
 .psc-title-line1 {
   display: block;
   font-family: "Syne", sans-serif;
-  font-size: clamp(2.4rem, 6vw, 4.8rem);
+  font-size: clamp(2rem, 5.5vw, 4.8rem);
   font-weight: 800;
   letter-spacing: -0.03em;
   text-transform: uppercase;
@@ -3578,12 +3623,12 @@ body::before {
 .psc-title-line2 {
   display: block;
   font-family: "Syne", sans-serif;
-  font-size: clamp(2.4rem, 6vw, 4.8rem);
+  font-size: clamp(2rem, 5.5vw, 4.8rem);
   font-weight: 800;
   letter-spacing: -0.03em;
   text-transform: uppercase;
   color: #1a1a1a;
-  padding-left: clamp(2rem, 5vw, 4rem);
+  padding-left: clamp(1.5rem, 4vw, 4rem);
 }
 
 /* Cards Grid */
@@ -3705,6 +3750,25 @@ body::before {
 
 /* Responsive */
 @media (max-width: 768px) {
+  .psc-section {
+    padding: 3.5rem 1.25rem !important;
+  }
+
+  .psc-header {
+    margin-bottom: 2rem !important;
+  }
+
+  .psc-title-line1 {
+    font-size: clamp(1.75rem, 8vw, 2.4rem) !important;
+    line-height: 1.05 !important;
+  }
+
+  .psc-title-line2 {
+    font-size: clamp(1.75rem, 8vw, 2.4rem) !important;
+    line-height: 1.05 !important;
+    padding-left: 0.85rem !important;
+  }
+
   .psc-grid {
     grid-template-columns: 1fr;
     gap: 1.5rem;
@@ -3713,9 +3777,20 @@ body::before {
   .psc-card {
     aspect-ratio: 4 / 3;
   }
+}
+
+@media (max-width: 380px) {
+  .psc-section {
+    padding: 3rem 1rem !important;
+  }
+
+  .psc-title-line1,
+  .psc-title-line2 {
+    font-size: 1.55rem !important;
+  }
 
   .psc-title-line2 {
-    padding-left: 1.5rem;
+    padding-left: 0.5rem !important;
   }
 }
 
@@ -4233,17 +4308,17 @@ body::before {
 
 .axtrait-navbar-wrapper {
   position: fixed;
-  top: 0;
+  top: 18px;
   left: 0;
   right: 0;
   width: 100%;
-  max-width: 100vw;
   z-index: 9999;
   display: flex;
   justify-content: center;
   align-items: center;
   pointer-events: none;
-  padding: 20px 32px 0;
+  padding: 0 24px;
+  margin: 0;
   box-sizing: border-box;
 }
 
@@ -4254,19 +4329,24 @@ body::before {
   margin-right: auto;
   pointer-events: auto;
   background: #ffffff;
-  border-radius: 12px;
+  border-radius: 9999px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.10);
   border: 1px solid rgba(0, 0, 0, 0.04);
   overflow: hidden;
   box-sizing: border-box;
+  transition: border-radius 0.3s ease, box-shadow 0.3s ease;
+}
+
+.axtrait-navbar-container.is-open {
+  border-radius: 28px;
 }
 
 .axtrait-navbar-top {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 60px;
-  padding: 0 22px;
+  height: 56px;
+  padding: 0 20px;
   position: relative;
   background: #ffffff;
   box-sizing: border-box;
@@ -4282,8 +4362,8 @@ body::before {
   font-size: 10px;
   font-weight: 700;
   font-family: var(--font-sans, "Montserrat", sans-serif);
-  padding: 7px 16px;
-  border-radius: 4px;
+  padding: 7px 18px;
+  border-radius: 9999px;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   text-decoration: none;
@@ -4319,9 +4399,9 @@ body::before {
 }
 
 .axtrait-nav-logo-img {
-  height: 50px;
+  height: 44px;
   width: auto;
-  max-width: 280px;
+  max-width: 240px;
   object-fit: contain;
   display: block;
 }
@@ -4329,7 +4409,7 @@ body::before {
 .axtrait-nav-controls {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   margin-left: auto;
   flex-shrink: 0;
 }
@@ -4372,13 +4452,13 @@ body::before {
 
 /* ── Menu Content ── */
 .axtrait-menu-content {
-  padding: 28px 24px 20px;
+  padding: 24px 20px 18px;
 }
 
 .axtrait-menu-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 24px;
+  gap: 20px;
 }
 
 @media (min-width: 768px) {
@@ -4480,8 +4560,8 @@ body::before {
 }
 
 .axtrait-menu-footer {
-  margin-top: 20px;
-  padding-top: 14px;
+  margin-top: 18px;
+  padding-top: 12px;
   border-top: 1px solid #f0f0f0;
   display: flex;
   flex-wrap: wrap;
@@ -4502,11 +4582,13 @@ body::before {
 /* Tablet (768px – 1023px) */
 @media (min-width: 768px) and (max-width: 1023px) {
   .axtrait-navbar-wrapper {
-    padding: 20px 24px 0 !important;
+    top: 18px !important;
     left: 0 !important;
     right: 0 !important;
     width: 100% !important;
-    margin: 0 auto !important;
+    transform: none !important;
+    padding: 0 24px !important;
+    margin: 0 !important;
     display: flex !important;
     justify-content: center !important;
     align-items: center !important;
@@ -4516,12 +4598,16 @@ body::before {
     width: 100% !important;
     max-width: 100% !important;
     margin: 0 auto !important;
-    border-radius: 12px !important;
+    border-radius: 9999px !important;
     box-sizing: border-box !important;
+    transition: border-radius 0.3s ease, box-shadow 0.3s ease !important;
+  }
+  .axtrait-navbar-container.is-open {
+    border-radius: 24px !important;
   }
   .axtrait-navbar-top {
-    height: 58px !important;
-    padding: 0 18px !important;
+    height: 56px !important;
+    padding: 0 16px !important;
     display: flex !important;
     align-items: center !important;
     justify-content: space-between !important;
@@ -4538,8 +4624,8 @@ body::before {
     align-items: center !important;
   }
   .axtrait-nav-logo-img {
-    height: 40px !important;
-    max-width: 210px !important;
+    height: 38px !important;
+    max-width: 190px !important;
   }
   .hero-v2 {
     padding: 85px 24px 30px !important;
@@ -4555,11 +4641,13 @@ body::before {
 /* Mobile (<768px) */
 @media (max-width: 767px) {
   .axtrait-navbar-wrapper {
-    padding: 16px 16px 0 !important;
+    top: 14px !important;
     left: 0 !important;
     right: 0 !important;
     width: 100% !important;
-    margin: 0 auto !important;
+    transform: none !important;
+    padding: 0 16px !important;
+    margin: 0 !important;
     display: flex !important;
     justify-content: center !important;
     align-items: center !important;
@@ -4569,13 +4657,17 @@ body::before {
     width: 100% !important;
     max-width: 100% !important;
     margin: 0 auto !important;
-    border-radius: 14px !important;
+    border-radius: 9999px !important;
     box-shadow: 0 4px 18px rgba(0, 0, 0, 0.12) !important;
     box-sizing: border-box !important;
+    transition: border-radius 0.3s ease, box-shadow 0.3s ease !important;
+  }
+  .axtrait-navbar-container.is-open {
+    border-radius: 24px !important;
   }
   .axtrait-navbar-top {
-    height: 58px !important;
-    padding: 0 16px !important;
+    height: 54px !important;
+    padding: 0 14px !important;
     display: flex !important;
     align-items: center !important;
     justify-content: space-between !important;
@@ -4595,34 +4687,34 @@ body::before {
     flex-shrink: 0 !important;
   }
   .axtrait-nav-logo-img {
-    height: 35px !important;
+    height: 36px !important;
     max-width: 175px !important;
   }
   .axtrait-nav-controls {
     display: flex !important;
     align-items: center !important;
-    gap: 10px !important;
+    gap: 8px !important;
     margin-left: auto !important;
     flex-shrink: 0 !important;
   }
   .axtrait-nav-theme-btn {
-    width: 36px !important;
-    height: 36px !important;
+    width: 34px !important;
+    height: 34px !important;
     border-radius: 50% !important;
     background: #f3f4f6 !important;
   }
   .axtrait-nav-menu-btn {
-    width: 36px !important;
-    height: 36px !important;
+    width: 34px !important;
+    height: 34px !important;
     border-radius: 50% !important;
   }
   .axtrait-menu-content {
-    padding: 18px 16px 16px !important;
+    padding: 16px 14px 14px !important;
     max-height: 80vh !important;
     overflow-y: auto !important;
   }
   .axtrait-menu-banner {
-    min-height: 160px !important;
+    min-height: 150px !important;
   }
   
   /* Hero responsive adjustments — shifted up with balanced spacing */
@@ -4661,14 +4753,15 @@ body::before {
 /* Small phones (≤374px) */
 @media (max-width: 374px) {
   .axtrait-navbar-wrapper {
-    padding: 16px 12px 0 !important;
-  }
-  .axtrait-navbar-top {
-    height: 54px !important;
+    top: 12px !important;
     padding: 0 12px !important;
   }
+  .axtrait-navbar-top {
+    height: 50px !important;
+    padding: 0 10px !important;
+  }
   .axtrait-nav-logo-img {
-    height: 30px !important;
+    height: 32px !important;
     max-width: 145px !important;
   }
   .hero-v2 {
@@ -4686,3 +4779,5 @@ body::before {
     height: clamp(95px, 34vw, 120px) !important;
   }
 }
+
+

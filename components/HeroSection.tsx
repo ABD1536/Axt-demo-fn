@@ -103,6 +103,11 @@ function GeodesicSphere() {
 }
 
 /* ── Hero Section Component ───────────────────────────────────── */
+import dynamic from "next/dynamic";
+
+const Galaxy = dynamic(() => import("@/components/Galaxy"), { ssr: false });
+const RippleEffect = dynamic(() => import("@/components/RippleEffect"), { ssr: false });
+
 export default function HeroSection() {
   const cards = [
     { src: "/images/hero_card_1.jpg", alt: "Axtrait Creative Lead" },
@@ -112,13 +117,34 @@ export default function HeroSection() {
 
   return (
     <section className="hero-v2" id="hero" aria-label="Hero">
+      {/* ── Layer 1: WebGL Galaxy Stars Background (z-0) ──────────── */}
+      <div className="absolute inset-0 z-0 pointer-events-none opacity-85">
+        <Galaxy 
+          mouseRepulsion
+          mouseInteraction
+          density={1}
+          glowIntensity={0.35}
+          saturation={0}
+          hueShift={140}
+          twinkleIntensity={0.4}
+          rotationSpeed={0.08}
+          repulsionStrength={2.2}
+          autoCenterRepulsion={0}
+          starSpeed={0.5}
+          speed={1}
+        />
+      </div>
+
+      {/* ── Layer 2: Neon Cyber Ripple Effect (z-10) ──────────────── */}
+      <RippleEffect />
+
       {/* ── 3D Geodesic Mesh Sphere Background ──────────────────────── */}
       <div className="hero-v2-sphere" aria-hidden="true">
         <GeodesicSphere />
       </div>
 
-      {/* ── Centered Hero Container ─────────────────────────────── */}
-      <div className="hero-v2-inner hero-v2-centered">
+      {/* ── Layer 3: Centered Hero Content (z-20) ─────────────────── */}
+      <div className="hero-v2-inner hero-v2-centered relative z-20">
         
         {/* 0. TOP BADGE: Star Icon + Tagline Pill */}
         <div className="hero-v2-badge">
@@ -174,3 +200,4 @@ export default function HeroSection() {
     </section>
   );
 }
+
