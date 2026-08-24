@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useRef } from "react";
 import Link from "next/link";
 
 interface BlogPost {
@@ -51,30 +52,79 @@ const blogPosts: BlogPost[] = [
 ];
 
 export default function BlogSection() {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const sliderRef = useRef<HTMLDivElement>(null);
+
+  const scrollToIndex = (index: number) => {
+    if (!sliderRef.current) return;
+    const container = sliderRef.current;
+    const cards = container.querySelectorAll(".blog-card");
+    if (cards[index]) {
+      const card = cards[index] as HTMLElement;
+      container.scrollTo({
+        left: card.offsetLeft - container.offsetLeft,
+        behavior: "smooth",
+      });
+      setCurrentIndex(index);
+    }
+  };
+
+  const handlePrev = () => {
+    const newIdx = currentIndex === 0 ? blogPosts.length - 1 : currentIndex - 1;
+    scrollToIndex(newIdx);
+  };
+
+  const handleNext = () => {
+    const newIdx = (currentIndex + 1) % blogPosts.length;
+    scrollToIndex(newIdx);
+  };
+
+  const handleScroll = () => {
+    if (!sliderRef.current) return;
+    const container = sliderRef.current;
+    const scrollLeft = container.scrollLeft;
+    const cards = container.querySelectorAll(".blog-card");
+    if (cards.length > 0) {
+      let closestIdx = 0;
+      let minDiff = Infinity;
+      cards.forEach((card, i) => {
+        const offset = (card as HTMLElement).offsetLeft - container.offsetLeft;
+        const diff = Math.abs(offset - scrollLeft);
+        if (diff < minDiff) {
+          minDiff = diff;
+          closestIdx = i;
+        }
+      });
+      if (closestIdx !== currentIndex) {
+        setCurrentIndex(closestIdx);
+      }
+    }
+  };
+
   return (
     <section className="blog-section">
       <div className="blog-container">
         {/* ─── Header ─── */}
         <div className="blog-header">
-          <div className="blog-header-left">
-            <div className="blog-tag">
-              <span className="blog-tag-icon">⊕</span>
-              <span className="blog-tag-text">Our press</span>
-            </div>
-            <h2 className="blog-title">
-              <em>Highlights</em> From News
-            </h2>
+          <div className="blog-tag">
+            <span className="blog-tag-icon">✦</span>
+            <span className="blog-tag-text">Our press</span>
           </div>
-          <div className="blog-header-right">
-            <p className="blog-subtitle">
-              See what media outlets are saying about our work and impact
-              platforms that featured us.
-            </p>
-          </div>
+          <h2 className="blog-title">
+            <em>Highlights</em> From News
+          </h2>
+          <p className="blog-subtitle">
+            See what media outlets are saying about our work and impact
+            platforms that featured us.
+          </p>
         </div>
 
-        {/* ─── Cards Grid ─── */}
-        <div className="blog-grid">
+        {/* ─── Cards Grid / Slider ─── */}
+        <div
+          className="blog-grid"
+          ref={sliderRef}
+          onScroll={handleScroll}
+        >
           {blogPosts.map((post) => (
             <article key={post.id} className="blog-card">
               {/* Image */}
@@ -124,6 +174,40 @@ export default function BlogSection() {
               </div>
             </article>
           ))}
+        </div>
+
+        {/* ─── Mobile Slider Controls (Buttons & Dots) ─── */}
+        <div className="blog-mobile-controls">
+          <div className="blog-dots">
+            {blogPosts.map((_, i) => (
+              <button
+                key={i}
+                type="button"
+                onClick={() => scrollToIndex(i)}
+                className={`blog-dot ${currentIndex === i ? "active" : ""}`}
+                aria-label={`Go to slide ${i + 1}`}
+              />
+            ))}
+          </div>
+
+          <div className="blog-arrows">
+            <button
+              type="button"
+              onClick={handlePrev}
+              className="blog-slider-btn"
+              aria-label="Previous slide"
+            >
+              ‹
+            </button>
+            <button
+              type="button"
+              onClick={handleNext}
+              className="blog-slider-btn"
+              aria-label="Next slide"
+            >
+              ›
+            </button>
+          </div>
         </div>
       </div>
     </section>

@@ -169,20 +169,6 @@ export default function TestimonialsSection() {
 
           <div className="review-banner-col">
             <div className="platform-logo-item">
-              <div className="platform-icon capterra-icon">
-                <span className="capterra-dot" />
-              </div>
-              <div className="platform-text">
-                <span className="platform-name">Capterra</span>
-                <span className="platform-score">4.8/5 (102 Reviews)</span>
-              </div>
-            </div>
-          </div>
-
-          <div className="review-banner-divider" aria-hidden="true" />
-
-          <div className="review-banner-col">
-            <div className="platform-logo-item">
               <div className="platform-icon google-icon">G</div>
               <div className="platform-text">
                 <span className="platform-name">Google</span>

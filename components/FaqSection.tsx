@@ -69,9 +69,12 @@ export default function FaqSection() {
             Quick Answers For Your Important Questions
           </h2>
 
-          <Link href="/contact" className="faq-contact-btn">
-            <span>Contact Us</span>
-            <span className="btn-arrow-circle" aria-hidden="true">
+          <Link
+            href="/contact"
+            className="inline-flex items-center gap-4 pl-7 pr-2 py-2 rounded-full bg-black text-white font-medium text-sm sm:text-[15px] hover:bg-[#0acd00] hover:text-black transition-all duration-300 shadow-xl font-['Montserrat'] group w-fit"
+          >
+            <span className="font-medium tracking-tight">Contact Us</span>
+            <span className="w-10 h-10 rounded-full bg-[#0acd00] text-black group-hover:bg-black group-hover:text-white flex items-center justify-center font-extrabold text-lg group-hover:scale-105 transition-all">
               ↗
             </span>
           </Link>

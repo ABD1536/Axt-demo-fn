@@ -78,7 +78,24 @@ export default function Navbar() {
         aria-label="Primary Navigation"
         className="axtrait-navbar-wrapper"
       >
-        <div className={`axtrait-navbar-container ${isOpen ? "is-open" : ""}`}>
+        <motion.div
+          className={`axtrait-navbar-container ${isOpen ? "is-open" : ""}`}
+          animate={
+            isOpen
+              ? {
+                  scale: [1, 1.015, 1],
+                  transition: {
+                    duration: 0.62,
+                    ease: [0.22, 1, 0.36, 1],
+                  },
+                }
+              : {
+                  scale: 1,
+                  transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1] },
+                }
+          }
+          style={{ transformOrigin: "top center" }}
+        >
           {/* ── Top Bar (always visible) ─────────────────────── */}
           <div className="axtrait-navbar-top">
             {/* LEFT: Start Project Button (Desktop only) */}
@@ -126,44 +143,38 @@ export default function Navbar() {
                 aria-expanded={isOpen}
                 className="axtrait-nav-menu-btn"
               >
-                {isOpen ? (
-                  <X className="w-5 h-5" />
-                ) : (
-                  <svg
-                    width="20"
-                    height="14"
-                    viewBox="0 0 20 14"
-                    fill="none"
-                  >
-                    <line
-                      x1="0"
-                      y1="2"
-                      x2="20"
-                      y2="2"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                    />
-                    <line
-                      x1="0"
-                      y1="7"
-                      x2="20"
-                      y2="7"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                    />
-                    <line
-                      x1="0"
-                      y1="12"
-                      x2="20"
-                      y2="12"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                    />
-                  </svg>
-                )}
+                <div className="relative w-[18px] h-[14px] flex flex-col justify-between items-start pointer-events-none">
+                  {/* Top line: full width */}
+                  <motion.span
+                    className="w-full h-[2px] bg-current rounded-full block origin-center"
+                    animate={
+                      isOpen
+                        ? { rotate: 45, y: 6 }
+                        : { rotate: 0, y: 0 }
+                    }
+                    transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+                  />
+                  {/* Middle line: shorter ~60% left-aligned */}
+                  <motion.span
+                    className="w-[11px] h-[2px] bg-current rounded-full block origin-left"
+                    animate={
+                      isOpen
+                        ? { opacity: 0, scaleX: 0 }
+                        : { opacity: 1, scaleX: 1 }
+                    }
+                    transition={{ duration: 0.18, ease: "easeOut" }}
+                  />
+                  {/* Bottom line: full width */}
+                  <motion.span
+                    className="w-full h-[2px] bg-current rounded-full block origin-center"
+                    animate={
+                      isOpen
+                        ? { rotate: -45, y: -6 }
+                        : { rotate: 0, y: 0 }
+                    }
+                    transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+                  />
+                </div>
               </button>
             </div>
           </div>
@@ -174,12 +185,47 @@ export default function Navbar() {
               <motion.div
                 key="menu-panel"
                 initial={{ height: 0, opacity: 0 }}
-                animate={{ height: "auto", opacity: 1 }}
-                exit={{ height: 0, opacity: 0 }}
-                transition={{ duration: 0.35, ease: [0.25, 0.46, 0.45, 0.94] }}
+                animate={{
+                  height: "auto",
+                  opacity: 1,
+                  transition: {
+                    height: { duration: 0.62, ease: [0.22, 1, 0.36, 1] },
+                    opacity: { duration: 0.3, ease: "easeOut" },
+                  },
+                }}
+                exit={{
+                  height: 0,
+                  opacity: 0,
+                  transition: {
+                    height: { duration: 0.4, ease: [0.32, 0, 0.67, 0], delay: 0.08 },
+                    opacity: { duration: 0.2, ease: "easeIn" },
+                  },
+                }}
                 style={{ overflow: "hidden", borderTop: "1px solid #f0f0f0" }}
               >
-                <div className="axtrait-menu-content">
+                <motion.div
+                  className="axtrait-menu-content"
+                  initial={{ opacity: 0, scale: 0.96, filter: "blur(4px)" }}
+                  animate={{
+                    opacity: 1,
+                    scale: 1,
+                    filter: "blur(0px)",
+                    transition: {
+                      duration: 0.4,
+                      delay: 0.2,
+                      ease: [0.22, 1, 0.36, 1],
+                    },
+                  }}
+                  exit={{
+                    opacity: 0,
+                    scale: 0.96,
+                    filter: "blur(4px)",
+                    transition: {
+                      duration: 0.2,
+                      ease: "easeIn",
+                    },
+                  }}
+                >
                   {/* ── Two-Column Layout ──────────────────────── */}
                   <div className="axtrait-menu-grid">
                     {/* LEFT: Navigation Links (Text only, no icons) */}
@@ -201,11 +247,20 @@ export default function Navbar() {
 
                     {/* RIGHT: Visual Banner */}
                     <div className="axtrait-menu-banner">
-                      <img
+                      <motion.img
                         src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=1200&auto=format&fit=crop"
                         alt="AXTRAIT Futuristic Interface"
                         className="axtrait-menu-banner-img"
                         loading="lazy"
+                        initial={{ scale: 1.05 }}
+                        animate={{
+                          scale: 1,
+                          transition: {
+                            duration: 0.65,
+                            delay: 0.2,
+                            ease: [0.22, 1, 0.36, 1],
+                          },
+                        }}
                       />
                       <div className="axtrait-menu-banner-overlay" />
 
@@ -229,11 +284,11 @@ export default function Navbar() {
                     <span>Est. 2026</span>
                     <span>Accepting Projects</span>
                   </div>
-                </div>
+                </motion.div>
               </motion.div>
             )}
           </AnimatePresence>
-        </div>
+        </motion.div>
       </nav>
     </>
   );

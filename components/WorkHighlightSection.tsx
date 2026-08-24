@@ -28,79 +28,37 @@ const featuredProjects = [
 
 export default function WorkHighlightSection() {
   return (
-    <section className="section" style={{ background: "var(--bg-base)" }}>
-      <div className="section-header">
-        <span className="badge">Featured Cases</span>
-        <h2>
+    <section className="py-20 sm:py-28 px-4 sm:px-8 max-w-7xl mx-auto" style={{ background: "var(--bg-base)" }}>
+      <div className="text-center max-w-3xl mx-auto mb-16">
+        <span className="badge mb-4">Featured Cases</span>
+        <h2 className="font-['Syne'] font-extrabold text-3xl sm:text-4xl lg:text-5xl text-white leading-tight mb-4">
           Engineered for <span className="text-gradient">Impact</span>
         </h2>
-        <p>
+        <p className="text-gray-400 text-base sm:text-lg">
           Discover how Axtrait empowers B2B leaders and high-growth scaleups to achieve breakthrough technological advantages.
         </p>
       </div>
 
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
-          gap: "1.5rem",
-          maxWidth: "1200px",
-          margin: "0 auto",
-        }}
-      >
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
         {featuredProjects.map((project) => (
-          <div key={project.title} className="card-dark" style={{ padding: "2.25rem" }}>
-            <div
-              style={{
-                fontSize: "0.78rem",
-                fontWeight: "600",
-                textTransform: "uppercase",
-                letterSpacing: "0.08em",
-                color: "var(--accent-secondary)",
-                marginBottom: "0.5rem",
-              }}
-            >
-              {project.category}
+          <div key={project.title} className="card-dark p-8 flex flex-col justify-between">
+            <div>
+              <div className="text-xs font-bold uppercase tracking-wider text-[#0acd00] mb-2">
+                {project.category}
+              </div>
+              <h3 className="font-['Syne'] font-bold text-xl sm:text-2xl text-white mb-3">
+                {project.title}
+              </h3>
+              <div className="inline-block px-3 py-1 bg-[#0acd00]/10 border border-[#0acd00]/25 rounded-lg text-xs font-bold text-[#0acd00] mb-4">
+                {project.metric}
+              </div>
+              <p className="text-gray-400 text-sm leading-relaxed mb-6">
+                {project.description}
+              </p>
             </div>
-            <h3
-              style={{
-                fontFamily: "var(--font-display)",
-                fontSize: "1.25rem",
-                fontWeight: 700,
-                color: "var(--text-primary)",
-                marginBottom: "0.75rem",
-              }}
-            >
-              {project.title}
-            </h3>
-            <div
-              style={{
-                display: "inline-block",
-                padding: "0.25rem 0.75rem",
-                background: "rgba(124, 58, 237, 0.15)",
-                border: "1px solid rgba(124, 58, 237, 0.3)",
-                borderRadius: "6px",
-                fontSize: "0.82rem",
-                fontWeight: "700",
-                color: "#c4b5fd",
-                marginBottom: "1rem",
-              }}
-            >
-              {project.metric}
-            </div>
-            <p
-              style={{
-                fontSize: "0.92rem",
-                color: "var(--text-secondary)",
-                lineHeight: "1.65",
-                marginBottom: "1.5rem",
-              }}
-            >
-              {project.description}
-            </p>
-            <div className="service-tags">
+            <div className="flex flex-wrap gap-2 pt-4 border-t border-white/10">
               {project.tags.map((tag) => (
-                <span key={tag} className="service-tag">
+                <span key={tag} className="px-3 py-1 bg-white/5 border border-white/10 rounded-full text-xs text-gray-300 font-medium">
                   {tag}
                 </span>
               ))}
@@ -109,9 +67,9 @@ export default function WorkHighlightSection() {
         ))}
       </div>
 
-      <div style={{ textAlign: "center", marginTop: "3rem" }}>
+      <div className="text-center mt-12">
         <Link href="/work" className="btn-ghost">
-          View All Work & Case Studies →
+          View All Work &amp; Case Studies →
         </Link>
       </div>
     </section>

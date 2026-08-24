@@ -1,5 +1,7 @@
 "use client";
 
+import React from "react";
+
 const brands = [
   {
     name: "Quizlet",
@@ -115,7 +117,7 @@ const brands = [
   },
 ];
 
-// Duplicate items for continuous seamless 60fps infinite marquee loop
+// Duplicate items for continuous seamless infinite marquee loop
 const marqueeList = [...brands, ...brands, ...brands];
 
 export default function MarqueeBanner() {
@@ -123,13 +125,13 @@ export default function MarqueeBanner() {
     <section className="partner-marquee-section rounded-t-[40px] sm:rounded-t-[56px] overflow-hidden" aria-label="Partner Brands">
       <div className="partner-marquee-container">
         
-        {/* Section Heading: Exact 3-Line Layout across ALL devices */}
+        {/* Section Heading: Exact 3-Line Layout */}
         <h2 className="partner-marquee-title">
           <span className="partner-title-line">The Visionaries and</span>
           <br />
           <span className="partner-title-line">
             <span className="partner-badge-pill">Industry Leaders</span>
-            <span className="partner-title-weve"> We&apos;ve</span>
+            <span> We&apos;ve</span>
           </span>
           <br />
           <span className="partner-title-line">Proudly Partnered.</span>
@@ -137,9 +139,9 @@ export default function MarqueeBanner() {
 
         {/* Continuous Looping Logo Marquee */}
         <div className="partner-marquee-wrapper">
-          <div className="partner-marquee-track">
+          <div className="partner-marquee-track flex flex-row flex-nowrap items-center gap-8 w-max">
             {marqueeList.map((brand, index) => (
-              <div className="partner-logo-card" key={`${brand.name}-${index}`}>
+              <div className="partner-logo-card flex items-center justify-center shrink-0" key={`${brand.name}-${index}`}>
                 {brand.svg}
               </div>
             ))}

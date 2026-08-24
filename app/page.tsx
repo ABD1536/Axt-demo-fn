@@ -13,6 +13,7 @@ import ProjectShowcase from "@/components/ProjectShowcase";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import BlogSection from "@/components/BlogSection";
 import FaqSection from "@/components/FaqSection";
+import TechIntegrationSection from "@/components/TechIntegrationSection";
 import Footer from "@/components/Footer";
 
 export default function Home() {
@@ -23,22 +24,22 @@ export default function Home() {
     offset: ["start start", "end end"],
   });
 
-  // Dynamic transforms for side gap shrinkage & expansion on scroll
-  const scale = useTransform(scrollYProgress, [0, 0.12], [0.93, 1]);
+  // Dynamic scale transformation for overlapping sheet on scroll
+  const scale = useTransform(scrollYProgress, [0, 0.08], [0.96, 1]);
 
   return (
     <>
       <Navbar />
       <main ref={containerRef} className="relative w-full bg-[#000000]">
-        {/* 1. FIXED & FROZEN HERO: Locked 100% stationary in top background */}
+        {/* 1. FIXED HERO: Locked in background */}
         <div className="fixed top-0 left-0 w-full h-screen z-0 overflow-hidden flex flex-col justify-center items-center">
           <HeroSection />
         </div>
 
-        {/* 2. 100vh SCROLL SPACER */}
+        {/* 2. SCROLL SPACER: Provides natural scroll distance before sheet overlaps */}
         <div className="h-screen w-full pointer-events-none" aria-hidden="true" />
 
-        {/* 3. OVERLAPPING SHEET: Slides UP directly over the frozen Hero */}
+        {/* 3. OVERLAPPING SHEET: Slides up and overlaps over the fixed hero */}
         <motion.div
           style={{
             scale,
@@ -54,6 +55,7 @@ export default function Home() {
           <TestimonialsSection />
           <BlogSection />
           <FaqSection />
+          <TechIntegrationSection />
           <Footer />
         </motion.div>
       </main>

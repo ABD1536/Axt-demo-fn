@@ -1,19 +1,20 @@
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
-import Link from "next/link";
-import type { Metadata } from "next";
+"use client";
 
-export const metadata: Metadata = {
-  title: "Our Work & Case Studies | Axtrait Digital & IT Solutions",
-  description:
-    "Explore case studies and success stories from Axtrait. See how we've helped B2B clients transform web apps, AI automation, and cloud infrastructure.",
-};
+import { useRef, useState } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import Link from "next/link";
+import Navbar from "@/components/Navbar";
+import HeroSection from "@/components/HeroSection";
+import MarqueeBanner from "@/components/MarqueeBanner";
+import Footer from "@/components/Footer";
+
+const categories = ["All", "Web & Mobile", "AI & Automation", "Cloud & Infra", "UI/UX Design"] as const;
 
 const caseStudies = [
   {
     title: "Nexora Global Logistics Platform",
     client: "Nexora Enterprise Solutions",
-    category: "Web & Mobile Engineering",
+    category: "Web & Mobile",
     metric: "+240% Speed & 99.99% Uptime",
     summary:
       "Engineered a real-time global freight tracking dashboard processing over 500,000 telemetry updates daily, replacing legacy monolithic tools.",
@@ -31,7 +32,7 @@ const caseStudies = [
   {
     title: "FinEdge AI Investment Assistant",
     client: "FinEdge Capital Management",
-    category: "AI Integration & Automation",
+    category: "AI & Automation",
     metric: "65% Cost Reduction & 4x Capacity",
     summary:
       "Deployed an enterprise RAG assistant that parses financial prospectuses, SEC filings, and quarterly reports in seconds for analyst teams.",
@@ -49,7 +50,7 @@ const caseStudies = [
   {
     title: "HealthCore HIPAA Cloud Migration",
     client: "HealthCore Telehealth",
-    category: "Custom IT Solutions & Infrastructure",
+    category: "Cloud & Infra",
     metric: "SOC2 & HIPAA Compliant",
     summary:
       "Migrated legacy patient portals to a zero-trust multi-region AWS cloud setup with automated vulnerability patching and real-time monitoring.",
@@ -67,7 +68,7 @@ const caseStudies = [
   {
     title: "Stacklabs Enterprise SaaS Redesign",
     client: "Stacklabs Software",
-    category: "UI/UX & Product Design",
+    category: "UI/UX Design",
     metric: "+180% User Activation Rate",
     summary:
       "Complete end-to-end design system overhaul and UX redesign for a complex developer tooling and workflow orchestration platform.",
@@ -85,137 +86,180 @@ const caseStudies = [
 ];
 
 export default function WorkPage() {
+  const [activeCategory, setActiveCategory] = useState<string>("All");
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end end"],
+  });
+
+  const scale = useTransform(scrollYProgress, [0, 0.08], [0.96, 1]);
+
+  const filteredProjects =
+    activeCategory === "All"
+      ? caseStudies
+      : caseStudies.filter((item) => item.category === activeCategory);
+
   return (
     <>
       <Navbar />
-      <main id="main-content" style={{ paddingTop: "72px" }}>
-        {/* Hero */}
-        <section className="section" style={{ background: "var(--gradient-hero)", textAlign: "center", position: "relative" }}>
-          <div className="glow-orb glow-orb--violet" style={{ width: 500, height: 500, top: "-10%", left: "15%" }} aria-hidden="true" />
-          <div style={{ maxWidth: "850px", margin: "0 auto" }}>
-            <span className="badge">Proven Results</span>
-            <h1
-              style={{
-                fontFamily: "var(--font-display)",
-                fontSize: "clamp(2.5rem, 5vw, 4.2rem)",
-                fontWeight: 800,
-                color: "#fff",
-                lineHeight: 1.1,
-                marginTop: "1rem",
-                marginBottom: "1.5rem",
-              }}
-            >
-              Case Studies &amp; <span className="text-gradient">Client Showcase</span>
-            </h1>
-            <p style={{ fontSize: "1.1rem", color: "var(--text-secondary)", lineHeight: 1.7, maxWidth: "660px", margin: "0 auto" }}>
-              Explore how we help high-growth startups and enterprise clients solve complex engineering challenges and achieve market dominance.
-            </p>
-          </div>
-        </section>
+      <main ref={containerRef} className="relative w-full bg-[#000000]">
+        {/* 1. FIXED HERO: Locked in background */}
+        <div className="fixed top-0 left-0 w-full h-[55vh] min-h-[440px] max-h-[560px] z-0 overflow-hidden flex flex-col justify-center items-center">
+          <HeroSection
+            className="hero-v2-compact"
+            badge="DIGITAL & IT AGENCY"
+            titleLine1="WORK"
+            titleLine2=""
+            primaryCtaText=""
+            secondaryCtaText=""
+            showCards={false}
+          />
+        </div>
 
-        {/* Case Studies List */}
-        <section className="section" style={{ background: "var(--bg-base)" }}>
-          <div style={{ maxWidth: "1150px", margin: "0 auto", display: "flex", flexDirection: "column", gap: "3rem" }}>
-            {caseStudies.map((cs) => (
-              <article key={cs.title} className="card-dark" style={{ padding: "3rem clamp(1.5rem, 4vw, 3rem)" }}>
-                <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "flex-start", gap: "1rem", marginBottom: "1.5rem" }}>
-                  <div>
-                    <span className="badge" style={{ marginBottom: "0.5rem" }}>
-                      {cs.category}
-                    </span>
-                    <h2 style={{ fontFamily: "var(--font-display)", fontSize: "1.8rem", fontWeight: 700, color: "var(--text-primary)", marginTop: "0.25rem" }}>
-                      {cs.title}
-                    </h2>
-                    <span style={{ fontSize: "0.88rem", color: "var(--text-muted)" }}>Client: {cs.client}</span>
-                  </div>
-                  <div
-                    style={{
-                      padding: "0.4rem 1rem",
-                      background: "rgba(124, 58, 237, 0.15)",
-                      border: "1px solid rgba(124, 58, 237, 0.3)",
-                      borderRadius: "8px",
-                      fontFamily: "var(--font-display)",
-                      fontSize: "0.95rem",
-                      fontWeight: 700,
-                      color: "#c4b5fd",
-                    }}
-                  >
-                    {cs.metric}
-                  </div>
-                </div>
+        {/* 2. SCROLL SPACER */}
+        <div className="h-[55vh] min-h-[440px] max-h-[560px] w-full pointer-events-none" aria-hidden="true" />
 
-                <p style={{ fontSize: "1.05rem", color: "var(--text-secondary)", lineHeight: 1.7, marginBottom: "2rem" }}>
-                  {cs.summary}
-                </p>
+        {/* 3. OVERLAPPING SHEET */}
+        <motion.div
+          style={{
+            scale,
+          }}
+          className="relative z-10 min-h-screen bg-[#ffffff] shadow-[0_-30px_80px_rgba(0,0,0,0.95)] origin-top rounded-t-[40px] sm:rounded-t-[56px]"
+        >
+          {/* Partner Brands Marquee */}
+          <MarqueeBanner />
 
-                <div
-                  style={{
-                    display: "grid",
-                    gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-                    gap: "1.5rem",
-                    background: "var(--bg-elevated)",
-                    padding: "1.75rem",
-                    borderRadius: "12px",
-                    border: "1px solid var(--border-subtle)",
-                    marginBottom: "1.75rem",
-                  }}
+          {/* Case Studies Section */}
+          <section className="py-20 sm:py-28 px-4 sm:px-8 max-w-7xl mx-auto">
+            <div className="text-center max-w-3xl mx-auto mb-14">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-black/10 bg-black/5 text-xs font-bold uppercase tracking-wider text-[#0acd00] mb-4">
+                ✦ Proven Results
+              </div>
+              <h2 className="font-['Syne'] font-extrabold text-3xl sm:text-4xl lg:text-5xl text-black leading-tight mb-4">
+                Case Studies &amp; <span className="text-[#0acd00]">Client Showcase</span>
+              </h2>
+              <p className="text-gray-600 text-base sm:text-lg">
+                Explore how we help high-growth startups and enterprise clients solve complex engineering challenges and achieve market dominance.
+              </p>
+            </div>
+
+            {/* Filter Tabs */}
+            <div className="flex flex-wrap justify-center gap-2 sm:gap-3 mb-16">
+              {categories.map((cat) => (
+                <button
+                  key={cat}
+                  onClick={() => setActiveCategory(cat)}
+                  className={`px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold uppercase tracking-wider transition-all duration-300 ${
+                    activeCategory === cat
+                      ? "bg-[#000000] text-white shadow-md"
+                      : "bg-[#f4f4f4] text-gray-600 hover:bg-gray-200"
+                  }`}
                 >
-                  <div>
-                    <h3 style={{ fontSize: "0.85rem", fontWeight: 700, color: "var(--accent-glow)", textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: "0.5rem" }}>
-                      The Challenge
-                    </h3>
-                    <p style={{ fontSize: "0.9rem", color: "var(--text-secondary)", lineHeight: 1.6 }}>{cs.challenge}</p>
-                  </div>
-                  <div>
-                    <h3 style={{ fontSize: "0.85rem", fontWeight: 700, color: "var(--accent-secondary)", textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: "0.5rem" }}>
-                      The Solution
-                    </h3>
-                    <p style={{ fontSize: "0.9rem", color: "var(--text-secondary)", lineHeight: 1.6 }}>{cs.solution}</p>
-                  </div>
-                </div>
+                  {cat}
+                </button>
+              ))}
+            </div>
 
-                <div>
-                  <h4 style={{ fontSize: "0.85rem", fontWeight: 700, color: "var(--text-primary)", textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: "0.75rem" }}>
-                    Verified Outcomes
-                  </h4>
-                  <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: "0.5rem", marginBottom: "1.5rem" }}>
-                    {cs.results.map((res) => (
-                      <li key={res} style={{ display: "flex", alignItems: "center", gap: "0.6rem", fontSize: "0.9rem", color: "var(--text-secondary)" }}>
-                        <span style={{ color: "var(--accent-glow)", fontWeight: 700 }}>⚡</span>
-                        <span>{res}</span>
-                      </li>
+            {/* Case Studies Cards List */}
+            <div className="flex flex-col gap-10 sm:gap-14">
+              {filteredProjects.map((cs) => (
+                <article
+                  key={cs.title}
+                  className="bg-[#f7f7f7] border border-gray-200/80 rounded-3xl p-8 sm:p-12 hover:shadow-xl transition-all duration-300"
+                >
+                  <div className="flex flex-wrap justify-between items-start gap-4 mb-6">
+                    <div>
+                      <span className="inline-block px-3.5 py-1 rounded-full bg-[#0acd00]/10 text-[#0acd00] text-xs font-bold uppercase tracking-wider mb-3">
+                        {cs.category}
+                      </span>
+                      <h3 className="font-['Syne'] font-extrabold text-2xl sm:text-3xl lg:text-4xl text-black">
+                        {cs.title}
+                      </h3>
+                      <p className="text-xs sm:text-sm text-gray-500 mt-1">Client: {cs.client}</p>
+                    </div>
+                    <div className="px-4 py-2 bg-black text-[#0acd00] rounded-xl text-xs sm:text-sm font-bold shadow-sm whitespace-nowrap">
+                      {cs.metric}
+                    </div>
+                  </div>
+
+                  <p className="text-gray-600 text-sm sm:text-base leading-relaxed mb-8">
+                    {cs.summary}
+                  </p>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-white border border-gray-200/90 rounded-2xl p-6 sm:p-8 mb-8 shadow-sm">
+                    <div>
+                      <h4 className="text-xs font-bold text-[#0acd00] uppercase tracking-wider mb-2">
+                        The Challenge
+                      </h4>
+                      <p className="text-xs sm:text-sm text-gray-600 leading-relaxed">{cs.challenge}</p>
+                    </div>
+                    <div>
+                      <h4 className="text-xs font-bold text-black uppercase tracking-wider mb-2">
+                        The Solution
+                      </h4>
+                      <p className="text-xs sm:text-sm text-gray-600 leading-relaxed">{cs.solution}</p>
+                    </div>
+                  </div>
+
+                  <div>
+                    <h4 className="font-['Syne'] font-bold text-sm text-black uppercase tracking-wider mb-4">
+                      Verified Outcomes
+                    </h4>
+                    <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-8">
+                      {cs.results.map((res) => (
+                        <li
+                          key={res}
+                          className="flex items-start gap-2.5 text-xs sm:text-sm text-gray-700 bg-white border border-gray-200/60 rounded-xl p-3.5"
+                        >
+                          <span className="text-[#0acd00] font-bold text-base leading-none">✓</span>
+                          <span>{res}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <div className="flex flex-wrap gap-2 pt-6 border-t border-gray-200">
+                    {cs.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="px-3.5 py-1.5 bg-black/5 border border-black/10 rounded-full text-xs font-semibold text-gray-700"
+                      >
+                        {tag}
+                      </span>
                     ))}
-                  </ul>
-                </div>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </section>
 
-                <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem", paddingTop: "1rem", borderTop: "1px solid var(--border-subtle)" }}>
-                  {cs.tags.map((tag) => (
-                    <span key={tag} className="service-tag">
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              </article>
-            ))}
-          </div>
-        </section>
+          {/* Bottom CTA */}
+          <section className="py-20 sm:py-28 px-4 sm:px-8 max-w-7xl mx-auto">
+            <div className="bg-[#000000] text-white rounded-3xl p-10 sm:p-16 text-center relative overflow-hidden border border-white/10 shadow-2xl">
+              <div className="relative z-10 max-w-2xl mx-auto">
+                <h2 className="font-['Syne'] font-extrabold text-3xl sm:text-4xl lg:text-5xl text-white leading-tight mb-4">
+                  Have a Similar Project in Mind?
+                </h2>
+                <p className="text-gray-400 text-base sm:text-lg mb-8">
+                  Let&apos;s discuss how we can build a scalable engineering solution for your business.
+                </p>
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center gap-2 bg-[#0acd00] text-black font-bold text-base px-8 py-4 rounded-full hover:brightness-110 shadow-lg shadow-[#0acd00]/25 transition-all duration-300"
+                >
+                  <span>Start Your Project Case Review</span>
+                  <span aria-hidden="true">→</span>
+                </Link>
+              </div>
+            </div>
+          </section>
 
-        {/* CTA */}
-        <section className="section" style={{ background: "var(--bg-surface)", textAlign: "center" }}>
-          <div style={{ maxWidth: "700px", margin: "0 auto" }}>
-            <h2 style={{ fontFamily: "var(--font-display)", fontSize: "2.2rem", fontWeight: 700, color: "var(--text-primary)", marginBottom: "1rem" }}>
-              Have a Similar Project in Mind?
-            </h2>
-            <p style={{ color: "var(--text-secondary)", marginBottom: "2rem" }}>
-              Let&apos;s discuss how we can build a scalable engineering solution for your business.
-            </p>
-            <Link href="/contact" className="btn-primary">
-              Start Your Project Case Review →
-            </Link>
-          </div>
-        </section>
+          {/* Footer */}
+          <Footer />
+        </motion.div>
       </main>
-      <Footer />
     </>
   );
 }

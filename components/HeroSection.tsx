@@ -1,7 +1,9 @@
 "use client";
 
+import React from "react";
 import Link from "next/link";
 import Image from "next/image";
+import dynamic from "next/dynamic";
 
 /* ── Geodesic Sphere SVG ──────────────────────────────────────────
    A 3D triangular-tessellated mesh sphere matching the reference visual.
@@ -102,13 +104,33 @@ function GeodesicSphere() {
   );
 }
 
-/* ── Hero Section Component ───────────────────────────────────── */
-import dynamic from "next/dynamic";
-
+/* ── Dynamic Galaxy & Ripple ───────────────────────────────────── */
 const Galaxy = dynamic(() => import("@/components/Galaxy"), { ssr: false });
 const RippleEffect = dynamic(() => import("@/components/RippleEffect"), { ssr: false });
 
-export default function HeroSection() {
+interface HeroSectionProps {
+  className?: string;
+  badge?: string;
+  titleLine1?: string;
+  titleLine2?: string;
+  primaryCtaText?: string;
+  primaryCtaLink?: string;
+  secondaryCtaText?: string;
+  secondaryCtaLink?: string;
+  showCards?: boolean;
+}
+
+export default function HeroSection({
+  className = "",
+  badge = "DIGITAL & IT AGENCY",
+  titleLine1 = "PLUG INTO",
+  titleLine2 = "INNOVATION",
+  primaryCtaText = "Let's Talk",
+  primaryCtaLink = "/contact",
+  secondaryCtaText = "View Work",
+  secondaryCtaLink = "/work",
+  showCards = true,
+}: HeroSectionProps = {}) {
   const cards = [
     { src: "/images/hero_card_1.jpg", alt: "Axtrait Creative Lead" },
     { src: "/images/hero_card_2.jpg", alt: "Axtrait Engineering Team" },
@@ -116,7 +138,7 @@ export default function HeroSection() {
   ];
 
   return (
-    <section className="hero-v2" id="hero" aria-label="Hero">
+    <section className={`hero-v2 ${className}`.trim()} id="hero" aria-label="Hero">
       {/* ── Layer 1: WebGL Galaxy Stars Background (z-0) ──────────── */}
       <div className="absolute inset-0 z-0 pointer-events-none opacity-85">
         <Galaxy 
@@ -143,61 +165,70 @@ export default function HeroSection() {
         <GeodesicSphere />
       </div>
 
-      {/* ── Layer 3: Centered Hero Content (z-20) ─────────────────── */}
-      <div className="hero-v2-inner hero-v2-centered relative z-20">
+      {/* ── Layer 3: Centered Hero Content ─────────────────────────── */}
+      <div className="hero-v2-inner">
         
         {/* 0. TOP BADGE: Star Icon + Tagline Pill */}
-        <div className="hero-v2-badge">
-          <svg
-            width="14"
-            height="14"
-            viewBox="0 0 24 24"
-            fill="#0acd00"
-            xmlns="http://www.w3.org/2000/svg"
-            aria-hidden="true"
-          >
-            <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z" />
-          </svg>
-          <span>DIGITAL &amp; IT AGENCY</span>
-        </div>
+        {badge && (
+          <div className="hero-v2-badge">
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="#0acd00"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+            >
+              <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z" />
+            </svg>
+            <span>{badge}</span>
+          </div>
+        )}
 
-        {/* 1. HEADLINE: Centered 2-Line Headline Text */}
-        <h1 className="hero-v2-h1 hero-v2-h1-centered">
-          <span className="hero-v2-block-text">PLUG INTO</span>
-          <span className="hero-v2-block-text">INNOVATION</span>
+        {/* 1. HEADLINE: Centered Headline Text */}
+        <h1 className="hero-v2-h1">
+          <span className="hero-v2-block-text">{titleLine1}</span>
+          {titleLine2 ? <span className="hero-v2-block-text">{titleLine2}</span> : null}
         </h1>
 
         {/* 2. CTA Buttons */}
-        <div className="hero-v2-btns hero-v2-btns-centered">
-          <Link href="/contact" className="btn-pill-v2-primary" id="hero-lets-talk">
-            <span>Let&apos;s Talk</span>
-            <span className="btn-arrow red-arrow" aria-hidden="true">↗</span>
-          </Link>
+        {(primaryCtaText || secondaryCtaText) ? (
+          <div className="hero-v2-btns">
+            {primaryCtaText ? (
+              <Link href={primaryCtaLink} className="btn-pill-v2-primary" id="hero-lets-talk">
+                <span>{primaryCtaText}</span>
+                <span className="btn-arrow red-arrow" aria-hidden="true">↗</span>
+              </Link>
+            ) : null}
 
-          <Link href="/work" className="btn-pill-v2-ghost" id="hero-view-work">
-            <span>View Work</span>
-            <span className="btn-arrow white-arrow" aria-hidden="true">↗</span>
-          </Link>
-        </div>
+            {secondaryCtaText ? (
+              <Link href={secondaryCtaLink} className="btn-pill-v2-ghost" id="hero-view-work">
+                <span>{secondaryCtaText}</span>
+                <span className="btn-arrow white-arrow" aria-hidden="true">↗</span>
+              </Link>
+            ) : null}
+          </div>
+        ) : null}
 
         {/* 3. 3 Image Cards */}
-        <div className="hero-v2-cards">
-          {cards.map((card, i) => (
-            <div key={i} className="hero-v2-card">
-              <Image
-                src={card.src}
-                alt={card.alt}
-                fill
-                sizes="(max-width: 768px) 30vw, 145px"
-                style={{ objectFit: "cover" }}
-                priority={i === 0}
-              />
-            </div>
-          ))}
-        </div>
+        {showCards && (
+          <div className="hero-v2-cards">
+            {cards.map((card, i) => (
+              <div key={i} className="hero-v2-card">
+                <Image
+                  src={card.src}
+                  alt={card.alt}
+                  fill
+                  sizes="(max-width: 768px) 30vw, 145px"
+                  style={{ objectFit: "cover" }}
+                  priority={i === 0}
+                />
+              </div>
+            ))}
+          </div>
+        )}
 
       </div>
     </section>
   );
 }
-

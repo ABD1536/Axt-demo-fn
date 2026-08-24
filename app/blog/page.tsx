@@ -1,9 +1,11 @@
 "use client";
 
+import { useRef, useState, type FormEvent } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 import Navbar from "@/components/Navbar";
+import HeroSection from "@/components/HeroSection";
+import MarqueeBanner from "@/components/MarqueeBanner";
 import Footer from "@/components/Footer";
-import Link from "next/link";
-import { type FormEvent, useState } from "react";
 
 const articles = [
   {
@@ -64,6 +66,14 @@ const articles = [
 
 export default function BlogPage() {
   const [subscribed, setSubscribed] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end end"],
+  });
+
+  const scale = useTransform(scrollYProgress, [0, 0.08], [0.96, 1]);
 
   const handleSubscribe = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -73,140 +83,148 @@ export default function BlogPage() {
   return (
     <>
       <Navbar />
-      <main id="main-content" style={{ paddingTop: "72px" }}>
-        {/* Hero */}
-        <section className="section" style={{ background: "var(--gradient-hero)", textAlign: "center", position: "relative" }}>
-          <div className="glow-orb glow-orb--cyan" style={{ width: 500, height: 500, top: "-10%", right: "20%" }} aria-hidden="true" />
-          <div style={{ maxWidth: "850px", margin: "0 auto" }}>
-            <span className="badge">Insights &amp; Engineering</span>
-            <h1
-              style={{
-                fontFamily: "var(--font-display)",
-                fontSize: "clamp(2.5rem, 5vw, 4.2rem)",
-                fontWeight: 800,
-                color: "#fff",
-                lineHeight: 1.1,
-                marginTop: "1rem",
-                marginBottom: "1.5rem",
-              }}
-            >
-              Tech Articles &amp; <span className="text-gradient">Industry Insights</span>
-            </h1>
-            <p style={{ fontSize: "1.1rem", color: "var(--text-secondary)", lineHeight: 1.7, maxWidth: "660px", margin: "0 auto" }}>
-              Deep dives into AI integration, Next.js architecture, cloud infrastructure, and enterprise B2B software strategy.
-            </p>
-          </div>
-        </section>
+      <main ref={containerRef} className="relative w-full bg-[#000000]">
+        {/* 1. FIXED HERO: Locked in background */}
+        <div className="fixed top-0 left-0 w-full h-[55vh] min-h-[440px] max-h-[560px] z-0 overflow-hidden flex flex-col justify-center items-center">
+          <HeroSection
+            className="hero-v2-compact"
+            badge="DIGITAL & IT AGENCY"
+            titleLine1="BLOG"
+            titleLine2=""
+            primaryCtaText=""
+            secondaryCtaText=""
+            showCards={false}
+          />
+        </div>
 
-        {/* Featured Post Banner */}
-        <section className="section" style={{ background: "var(--bg-surface)", paddingBottom: "3rem" }}>
-          <div style={{ maxWidth: "1150px", margin: "0 auto" }}>
-            <div className="card-dark" style={{ padding: "3rem", display: "grid", gridTemplateColumns: "1fr", gap: "1.5rem" }}>
-              <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-                <span className="badge">Featured Article</span>
-                <span style={{ fontSize: "0.85rem", color: "var(--text-muted)" }}>Aug 1, 2026 • 7 min read</span>
+        {/* 2. SCROLL SPACER */}
+        <div className="h-[55vh] min-h-[440px] max-h-[560px] w-full pointer-events-none" aria-hidden="true" />
+
+        {/* 3. OVERLAPPING SHEET */}
+        <motion.div
+          style={{
+            scale,
+          }}
+          className="relative z-10 min-h-screen bg-[#ffffff] shadow-[0_-30px_80px_rgba(0,0,0,0.95)] origin-top rounded-t-[40px] sm:rounded-t-[56px]"
+        >
+          {/* Partner Brands Marquee */}
+          <MarqueeBanner />
+
+          {/* Featured Post Banner */}
+          <section className="py-16 sm:py-20 px-4 sm:px-8 max-w-7xl mx-auto">
+            <div className="bg-[#f7f7f7] border border-gray-200/80 rounded-3xl p-8 sm:p-12 hover:shadow-xl transition-all duration-300">
+              <div className="flex items-center gap-3 mb-6">
+                <span className="px-3.5 py-1 rounded-full bg-[#0acd00]/10 text-[#0acd00] text-xs font-bold uppercase tracking-wider">
+                  Featured Publication
+                </span>
+                <span className="text-xs sm:text-sm text-gray-500 font-medium">Aug 1, 2026 • 7 min read</span>
               </div>
-              <h2 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(1.6rem, 3.5vw, 2.4rem)", fontWeight: 800, color: "var(--text-primary)", lineHeight: 1.25 }}>
+              <h2 className="font-['Syne'] font-extrabold text-2xl sm:text-3xl lg:text-4xl text-black leading-tight mb-4">
                 Building Production-Grade RAG Pipelines with Claude 3.5 &amp; Next.js 15
               </h2>
-              <p style={{ color: "var(--text-secondary)", fontSize: "1.05rem", lineHeight: 1.75, maxWidth: "850px" }}>
+              <p className="text-gray-600 text-sm sm:text-base leading-relaxed mb-8 max-w-3xl">
                 Discover how our engineering team builds ultra-responsive vector search systems capable of processing millions of enterprise documents with sub-100ms latency.
               </p>
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "1rem", paddingTop: "1rem", borderTop: "1px solid var(--border-subtle)" }}>
-                <span style={{ fontSize: "0.9rem", color: "var(--accent-glow)", fontWeight: 600 }}>By Alex Rivera, Head of AI</span>
-                <span style={{ fontSize: "0.9rem", color: "var(--accent-secondary)", fontWeight: 600, cursor: "pointer" }}>Read Full Article →</span>
+              <div className="flex justify-between items-center flex-wrap gap-4 pt-6 border-t border-gray-200">
+                <span className="text-xs sm:text-sm font-semibold text-gray-700">By Alex Rivera, Head of AI</span>
+                <span className="text-xs sm:text-sm font-bold text-[#0acd00] hover:underline cursor-pointer">
+                  Read Full Article →
+                </span>
               </div>
             </div>
-          </div>
-        </section>
+          </section>
 
-        {/* Articles Grid */}
-        <section className="section" style={{ background: "var(--bg-base)" }}>
-          <div className="section-header">
-            <span className="badge">Latest Publications</span>
-            <h2>
-              Explore Our <span className="text-gradient">Knowledge Base</span>
-            </h2>
-          </div>
+          {/* Articles Grid */}
+          <section className="py-16 sm:py-20 px-4 sm:px-8 max-w-7xl mx-auto">
+            <div className="text-center max-w-3xl mx-auto mb-16">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-black/10 bg-black/5 text-xs font-bold uppercase tracking-wider text-[#0acd00] mb-4">
+                ✦ Latest Publications
+              </div>
+              <h2 className="font-['Syne'] font-extrabold text-3xl sm:text-4xl lg:text-5xl text-black leading-tight mb-4">
+                Explore Our <span className="text-[#0acd00]">Knowledge Base</span>
+              </h2>
+              <p className="text-gray-600 text-base sm:text-lg">
+                Technical insights, architecture case studies, and engineering benchmarks.
+              </p>
+            </div>
 
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
-              gap: "1.75rem",
-              maxWidth: "1150px",
-              margin: "0 auto",
-            }}
-          >
-            {articles.map((art) => (
-              <article key={art.title} className="card-dark" style={{ padding: "2.25rem", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
-                <div>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1rem" }}>
-                    <span className="service-tag" style={{ background: "rgba(124, 58, 237, 0.12)", color: "#c4b5fd" }}>
-                      {art.category}
-                    </span>
-                    <span style={{ fontSize: "0.8rem", color: "var(--text-muted)" }}>{art.readTime}</span>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+              {articles.map((art) => (
+                <article
+                  key={art.title}
+                  className="bg-[#f7f7f7] border border-gray-200/80 rounded-2xl p-7 flex flex-col justify-between hover:shadow-xl hover:border-[#0acd00]/40 transition-all duration-300"
+                >
+                  <div>
+                    <div className="flex justify-between items-center mb-4">
+                      <span className="px-3 py-1 bg-black/5 border border-black/10 text-gray-700 text-xs font-semibold rounded-full">
+                        {art.category}
+                      </span>
+                      <span className="text-xs text-gray-400 font-medium">{art.readTime}</span>
+                    </div>
+
+                    <h3 className="font-['Syne'] font-bold text-lg sm:text-xl text-black leading-snug mb-3">
+                      {art.title}
+                    </h3>
+
+                    <p className="text-xs sm:text-sm text-gray-600 leading-relaxed mb-6">
+                      {art.summary}
+                    </p>
                   </div>
 
-                  <h3
-                    style={{
-                      fontFamily: "var(--font-display)",
-                      fontSize: "1.25rem",
-                      fontWeight: 700,
-                      color: "var(--text-primary)",
-                      lineHeight: 1.35,
-                      marginBottom: "0.85rem",
-                    }}
+                  <div className="pt-4 border-t border-gray-200 flex justify-between items-center text-xs font-semibold">
+                    <span className="text-gray-400">{art.date}</span>
+                    <span className="text-[#0acd00] hover:underline cursor-pointer">Read Article →</span>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </section>
+
+          {/* Newsletter Subscription */}
+          <section className="py-20 sm:py-28 px-4 sm:px-8 max-w-7xl mx-auto">
+            <div className="bg-[#000000] text-white rounded-3xl p-10 sm:p-16 text-center relative overflow-hidden border border-white/10 shadow-2xl">
+              <div className="relative z-10 max-w-2xl mx-auto">
+                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/15 bg-white/5 text-xs font-bold uppercase tracking-wider text-[#0acd00] mb-4">
+                  ✦ Stay Ahead
+                </div>
+                <h2 className="font-['Syne'] font-extrabold text-3xl sm:text-4xl lg:text-5xl text-white leading-tight mb-4">
+                  Subscribe to Axtrait Digest
+                </h2>
+                <p className="text-gray-400 text-base sm:text-lg mb-8">
+                  Get our monthly breakdown of tech architecture, AI innovations, and B2B growth benchmarks delivered directly to your inbox.
+                </p>
+
+                {subscribed ? (
+                  <div className="inline-flex items-center gap-2 px-6 py-3.5 bg-[#0acd00]/20 border border-[#0acd00]/40 rounded-full text-[#0acd00] font-bold text-sm">
+                    ✓ You&apos;re subscribed! Welcome to Axtrait Digest.
+                  </div>
+                ) : (
+                  <form
+                    onSubmit={handleSubscribe}
+                    className="flex flex-col sm:flex-row gap-3 justify-center max-w-md mx-auto"
                   >
-                    {art.title}
-                  </h3>
-
-                  <p style={{ fontSize: "0.92rem", color: "var(--text-secondary)", lineHeight: 1.65, marginBottom: "1.5rem" }}>
-                    {art.summary}
-                  </p>
-                </div>
-
-                <div style={{ paddingTop: "1rem", borderTop: "1px solid var(--border-subtle)", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                  <span style={{ fontSize: "0.8rem", color: "var(--text-muted)" }}>{art.date}</span>
-                  <span style={{ fontSize: "0.85rem", color: "var(--accent-glow)", fontWeight: 600, cursor: "pointer" }}>Read Article →</span>
-                </div>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        {/* Newsletter Subscription */}
-        <section className="section" style={{ background: "var(--bg-surface)", textAlign: "center" }}>
-          <div style={{ maxWidth: "650px", margin: "0 auto" }}>
-            <span className="badge" style={{ marginBottom: "1rem" }}>Stay Ahead</span>
-            <h2 style={{ fontFamily: "var(--font-display)", fontSize: "2rem", fontWeight: 700, color: "var(--text-primary)", marginBottom: "1rem" }}>
-              Subscribe to Axtrait Engineering Digest
-            </h2>
-            <p style={{ color: "var(--text-secondary)", marginBottom: "2rem" }}>
-              Get our monthly breakdown of tech architecture, AI innovations, and B2B growth benchmarks delivered directly to your inbox.
-            </p>
-            {subscribed ? (
-              <div style={{ padding: "1rem 1.5rem", background: "rgba(124, 58, 237, 0.15)", border: "1px solid rgba(124, 58, 237, 0.3)", borderRadius: "8px", color: "#c4b5fd" }}>
-                ✓ You&apos;re subscribed! Welcome to Axtrait Engineering Digest.
+                    <input
+                      type="email"
+                      placeholder="Enter your work email"
+                      required
+                      className="px-5 py-3.5 rounded-full bg-white/10 border border-white/20 text-white placeholder-gray-500 text-sm outline-none focus:border-[#0acd00] transition-colors flex-1"
+                    />
+                    <button
+                      type="submit"
+                      className="bg-[#0acd00] text-black font-bold text-sm px-8 py-3.5 rounded-full hover:brightness-110 shadow-lg shadow-[#0acd00]/25 transition-all"
+                    >
+                      Subscribe Now
+                    </button>
+                  </form>
+                )}
               </div>
-            ) : (
-              <form style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap", justifyContent: "center" }} onSubmit={handleSubscribe}>
-                <input
-                  type="email"
-                  placeholder="Enter your work email"
-                  className="form-input"
-                  style={{ flex: "1 1 280px", maxWidth: "380px" }}
-                  required
-                />
-                <button type="submit" className="btn-primary">
-                  Subscribe Now
-                </button>
-              </form>
-            )}
-          </div>
-        </section>
+            </div>
+          </section>
+
+          {/* Footer */}
+          <Footer />
+        </motion.div>
       </main>
-      <Footer />
     </>
   );
 }

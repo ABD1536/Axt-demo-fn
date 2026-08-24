@@ -33,58 +33,45 @@ export default function ContactSection() {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
-    // Simulate async send (replace with real API call / EmailJS / Formspree)
-    await new Promise((r) => setTimeout(r, 1400));
+    await new Promise((r) => setTimeout(r, 1000));
     setLoading(false);
     setSubmitted(true);
   };
 
   return (
     <section
-      className="contact-section section"
+      className="py-20 sm:py-28 px-4 sm:px-8 max-w-7xl mx-auto relative overflow-hidden"
       id="contact"
       ref={sectionRef}
       aria-labelledby="contact-heading"
     >
-      {/* Decorative orbs */}
-      <div
-        className="glow-orb glow-orb--cyan"
-        aria-hidden="true"
-        style={{ width: 400, height: 400, bottom: "0%", left: "-8%", opacity: 0.12 }}
-      />
-      <div
-        className="glow-orb glow-orb--violet"
-        aria-hidden="true"
-        style={{ width: 500, height: 500, top: "10%", right: "-10%", opacity: 0.1 }}
-      />
-
-      <div className="contact-wrapper">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
         {/* Left — Info */}
-        <div className="contact-info reveal">
-          <span className="badge" style={{ marginBottom: "1.5rem" }}>
+        <div className="reveal">
+          <span className="badge mb-6">
             Let&apos;s Build Together
           </span>
-          <h2 id="contact-heading">
+          <h2 id="contact-heading" className="font-['Syne'] font-extrabold text-3xl sm:text-4xl lg:text-5xl text-white leading-tight mb-6">
             Ready to Plug Into the{" "}
             <span className="text-gradient">Future?</span>
           </h2>
-          <p>
+          <p className="text-gray-400 text-base sm:text-lg leading-relaxed mb-8">
             Tell us about your project and we&apos;ll respond within one
             business day with a tailored proposal — no fluff, no pushy sales
             tactics. Just real expertise.
           </p>
 
-          <div className="contact-channels">
+          <div className="space-y-4">
             {[
               {
                 icon: "📧",
                 label: "Email Us",
-                value: "hello@axtrait.com",
+                value: "contact@axtrait.com",
               },
               {
                 icon: "📞",
                 label: "Call / WhatsApp",
-                value: "+1 (555) 000-0000",
+                value: "+1 (555) 019-2831",
               },
               {
                 icon: "🕐",
@@ -92,13 +79,13 @@ export default function ContactSection() {
                 value: "Within 24 business hours",
               },
             ].map((ch) => (
-              <div className="contact-channel" key={ch.label}>
-                <div className="channel-icon" aria-hidden="true">
+              <div className="bg-white/5 border border-white/10 rounded-2xl p-4 flex items-center gap-4" key={ch.label}>
+                <div className="w-10 h-10 rounded-xl bg-[#0acd00]/10 border border-[#0acd00]/25 flex items-center justify-center text-lg flex-shrink-0" aria-hidden="true">
                   {ch.icon}
                 </div>
-                <div className="channel-text">
-                  <strong>{ch.label}</strong>
-                  <span>{ch.value}</span>
+                <div>
+                  <strong className="block text-sm font-bold text-white">{ch.label}</strong>
+                  <span className="text-xs text-gray-400">{ch.value}</span>
                 </div>
               </div>
             ))}
@@ -109,64 +96,49 @@ export default function ContactSection() {
         <div className="reveal" style={{ transitionDelay: "0.15s" }}>
           {submitted ? (
             <div
-              className="contact-form"
-              style={{ textAlign: "center", padding: "4rem 2.5rem" }}
+              className="bg-white/5 border border-[#0acd00]/40 rounded-3xl p-10 text-center shadow-xl"
               role="status"
               aria-live="polite"
             >
-              <div
-                style={{
-                  fontSize: "3rem",
-                  marginBottom: "1rem",
-                }}
-                aria-hidden="true"
-              >
+              <div className="text-4xl mb-4" aria-hidden="true">
                 ✅
               </div>
-              <h3
-                style={{
-                  fontFamily: "var(--font-display)",
-                  fontSize: "1.4rem",
-                  fontWeight: 700,
-                  color: "var(--text-primary)",
-                  marginBottom: "0.75rem",
-                }}
-              >
+              <h3 className="font-['Syne'] text-2xl font-bold text-white mb-2">
                 Message Received!
               </h3>
-              <p style={{ color: "var(--text-secondary)", fontSize: "0.95rem", lineHeight: 1.7 }}>
+              <p className="text-gray-400 text-sm leading-relaxed">
                 Thanks for reaching out. Our team will review your project and
                 get back to you within one business day.
               </p>
             </div>
           ) : (
             <form
-              className="contact-form"
+              className="bg-white/5 border border-white/10 rounded-3xl p-8 sm:p-10 space-y-4 shadow-xl"
               onSubmit={handleSubmit}
               noValidate
               aria-label="Contact form"
             >
-              <div className="form-row">
-                <div className="form-group">
-                  <label className="form-label" htmlFor="contact-fname">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-bold text-gray-300 uppercase tracking-wider mb-2" htmlFor="contact-fname">
                     First Name *
                   </label>
                   <input
                     id="contact-fname"
-                    className="form-input"
+                    className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/15 text-sm text-white outline-none focus:border-[#0acd00] transition-colors"
                     type="text"
                     placeholder="John"
                     required
                     autoComplete="given-name"
                   />
                 </div>
-                <div className="form-group">
-                  <label className="form-label" htmlFor="contact-lname">
+                <div>
+                  <label className="block text-xs font-bold text-gray-300 uppercase tracking-wider mb-2" htmlFor="contact-lname">
                     Last Name *
                   </label>
                   <input
                     id="contact-lname"
-                    className="form-input"
+                    className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/15 text-sm text-white outline-none focus:border-[#0acd00] transition-colors"
                     type="text"
                     placeholder="Doe"
                     required
@@ -175,13 +147,13 @@ export default function ContactSection() {
                 </div>
               </div>
 
-              <div className="form-group">
-                <label className="form-label" htmlFor="contact-email">
+              <div>
+                <label className="block text-xs font-bold text-gray-300 uppercase tracking-wider mb-2" htmlFor="contact-email">
                   Work Email *
                 </label>
                 <input
                   id="contact-email"
-                  className="form-input"
+                  className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/15 text-sm text-white outline-none focus:border-[#0acd00] transition-colors"
                   type="email"
                   placeholder="john@company.com"
                   required
@@ -189,117 +161,57 @@ export default function ContactSection() {
                 />
               </div>
 
-              <div className="form-group">
-                <label className="form-label" htmlFor="contact-company">
-                  Company / Organisation
-                </label>
-                <input
-                  id="contact-company"
-                  className="form-input"
-                  type="text"
-                  placeholder="Acme Corp"
-                  autoComplete="organization"
-                />
-              </div>
-
-              <div className="form-group">
-                <label className="form-label" htmlFor="contact-service">
+              <div>
+                <label className="block text-xs font-bold text-gray-300 uppercase tracking-wider mb-2" htmlFor="contact-service">
                   Service Needed *
                 </label>
                 <select
                   id="contact-service"
-                  className="form-select"
+                  className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/15 text-sm text-white outline-none focus:border-[#0acd00] transition-colors"
                   required
                   defaultValue=""
                 >
-                  <option value="" disabled>
+                  <option value="" disabled className="bg-black text-gray-400">
                     Select a service…
                   </option>
                   {services.map((s) => (
-                    <option key={s} value={s}>
+                    <option key={s} value={s} className="bg-black text-white">
                       {s}
                     </option>
                   ))}
                 </select>
               </div>
 
-              <div className="form-group">
-                <label className="form-label" htmlFor="contact-message">
+              <div>
+                <label className="block text-xs font-bold text-gray-300 uppercase tracking-wider mb-2" htmlFor="contact-message">
                   Project Brief *
                 </label>
                 <textarea
                   id="contact-message"
-                  className="form-textarea"
+                  className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/15 text-sm text-white outline-none focus:border-[#0acd00] transition-colors resize-none"
                   placeholder="Tell us about your project goals, timeline, and any specific requirements…"
                   required
-                  rows={5}
+                  rows={4}
                 />
               </div>
 
               <button
                 type="submit"
                 id="contact-submit"
-                className="btn-primary form-submit"
+                className="w-full bg-[#0acd00] text-black font-bold text-sm sm:text-base py-4 rounded-full hover:brightness-110 shadow-lg shadow-[#0acd00]/25 transition-all"
                 disabled={loading}
                 aria-busy={loading}
               >
-                {loading ? (
-                  <>
-                    <svg
-                      width="16"
-                      height="16"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      aria-hidden="true"
-                      style={{ animation: "spin 1s linear infinite" }}
-                    >
-                      <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
-                    </svg>
-                    Sending…
-                  </>
-                ) : (
-                  <>
-                    Send Your Brief
-                    <svg
-                      width="16"
-                      height="16"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      aria-hidden="true"
-                    >
-                      <line x1="22" y1="2" x2="11" y2="13" />
-                      <polygon points="22 2 15 22 11 13 2 9 22 2" />
-                    </svg>
-                  </>
-                )}
+                {loading ? "Sending…" : "Send Your Brief →"}
               </button>
 
-              <p
-                style={{
-                  fontSize: "0.75rem",
-                  color: "var(--text-muted)",
-                  textAlign: "center",
-                  lineHeight: 1.6,
-                }}
-              >
-                🔒 Your information is secure and will never be shared with
-                third parties.
+              <p className="text-[11px] text-gray-500 text-center pt-2">
+                🔒 Your information is secure and will never be shared with third parties.
               </p>
             </form>
           )}
         </div>
       </div>
-
-      {/* Spinner keyframe (inline) */}
-      <style>{`
-        @keyframes spin { to { transform: rotate(360deg); } }
-      `}</style>
     </section>
   );
 }

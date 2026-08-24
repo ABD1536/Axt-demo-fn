@@ -2,6 +2,15 @@ import type { NextConfig } from "next";
 import path from "path";
 
 const nextConfig: NextConfig = {
+  // Remote image patterns for Unsplash and external media
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "**",
+      },
+    ],
+  },
   // Turbopack alias (Next.js 16+ default bundler)
   turbopack: {
     resolveAlias: {
@@ -19,4 +28,3 @@ const nextConfig: NextConfig = {
 };
 
 export default nextConfig;
-

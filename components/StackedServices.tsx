@@ -67,7 +67,7 @@ export default function StackedServices() {
             <span>OUR CORE SERVICES</span>
           </div>
           <h2 className="stacked-header-title">
-            SOLUTIONS ENGINEERED FOR <span className="highlight-text">GROWTH</span>
+            Our Services
           </h2>
         </div>
 
@@ -127,27 +127,16 @@ export default function StackedServices() {
           ))}
         </div>
 
-        {/* View More Services */}
-        <div style={{ display: "flex", justifyContent: "center", alignItems: "center", paddingTop: "1rem", paddingBottom: "1rem" }}>
+        {/* View More Services Button - Shifted more UP with 500 Font Weight */}
+        <div className="flex justify-center items-center -mt-5 sm:-mt-8 pt-0 pb-4 relative z-50">
           <Link
             href="/services"
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: "0.5rem",
-              color: "rgba(255,255,255,0.5)",
-              fontSize: "0.85rem",
-              fontFamily: "var(--font-sans)",
-              fontWeight: 600,
-              letterSpacing: "0.08em",
-              textTransform: "uppercase" as const,
-              textDecoration: "none",
-              transition: "color 0.2s",
-            }}
-            className="stacked-view-more-link"
+            className="inline-flex items-center gap-4 pl-7 pr-2 py-2 rounded-full bg-white text-zinc-950 font-medium text-sm sm:text-[15px] hover:bg-[#0acd00] hover:text-white transition-all duration-300 shadow-2xl font-['Montserrat'] group"
           >
-            <span>View More Services</span>
-            <span style={{ fontSize: "1rem" }}>→</span>
+            <span className="font-medium tracking-tight">View More Services</span>
+            <span className="w-10 h-10 rounded-full bg-[#0acd00] text-black group-hover:bg-black group-hover:text-white flex items-center justify-center font-extrabold text-lg group-hover:scale-105 transition-all">
+              ↗
+            </span>
           </Link>
         </div>
       </div>
