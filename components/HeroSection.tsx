@@ -118,6 +118,7 @@ interface HeroSectionProps {
   secondaryCtaText?: string;
   secondaryCtaLink?: string;
   showCards?: boolean;
+  titleClassName?: string;
 }
 
 export default function HeroSection({
@@ -130,6 +131,7 @@ export default function HeroSection({
   secondaryCtaText = "View Work",
   secondaryCtaLink = "/work",
   showCards = true,
+  titleClassName = "",
 }: HeroSectionProps = {}) {
   const cards = [
     { src: "/images/hero_card_1.jpg", alt: "Axtrait Creative Lead" },
@@ -186,9 +188,9 @@ export default function HeroSection({
         )}
 
         {/* 1. HEADLINE: Centered Headline Text */}
-        <h1 className="hero-v2-h1">
-          <span className="hero-v2-block-text">{titleLine1}</span>
-          {titleLine2 ? <span className="hero-v2-block-text">{titleLine2}</span> : null}
+        <h1 className={`hero-v2-h1 ${titleClassName}`.trim()}>
+          <span className={titleClassName ? "block" : "hero-v2-block-text"}>{titleLine1}</span>
+          {titleLine2 ? <span className={titleClassName ? "block" : "hero-v2-block-text"}>{titleLine2}</span> : null}
         </h1>
 
         {/* 2. CTA Buttons */}

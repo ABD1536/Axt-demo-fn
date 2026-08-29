@@ -5,101 +5,436 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
-import MarqueeBanner from "@/components/MarqueeBanner";
 import Footer from "@/components/Footer";
 
-const categories = ["All", "Web & Mobile", "AI & Automation", "Cloud & Infra", "UI/UX Design"] as const;
+function ArrowUpRight({ className }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <line x1="7" y1="17" x2="17" y2="7" />
+      <polyline points="7 7 17 7 17 17" />
+    </svg>
+  );
+}
 
-const caseStudies = [
+interface ProjectItem {
+  id: string;
+  title: string;
+  year: string;
+  tags: string[];
+  category: string;
+  image: string;
+}
+
+const allProjects: ProjectItem[] = [
+  // 1. WEB DEVELOPMENT
   {
-    title: "Nexora Global Logistics Platform",
-    client: "Nexora Enterprise Solutions",
-    category: "Web & Mobile",
-    metric: "+240% Speed & 99.99% Uptime",
-    summary:
-      "Engineered a real-time global freight tracking dashboard processing over 500,000 telemetry updates daily, replacing legacy monolithic tools.",
-    challenge:
-      "Legacy system experienced severe DB lockups and latency spikes during peak supply chain windows, resulting in missed delivery SLA tracking.",
-    solution:
-      "Rebuilt the core UI in Next.js App Router with micro-frontends, backed by Node.js microservices and Redis caching layer on AWS ECS.",
-    results: [
-      "240% increase in dashboard load performance",
-      "Zero unhandled outages across 12 consecutive months",
-      "Automated automated reporting saving 25+ staff hours weekly",
-    ],
-    tags: ["Next.js", "Node.js", "Redis", "AWS ECS", "Tailwind CSS"],
+    id: "web-1",
+    title: "MKT Auto Marketplace",
+    year: "[ 2026 ]",
+    tags: ["Automotive", "Next.js"],
+    category: "WEB DEVELOPMENT",
+    image: "/images/stacked_service_1.jpg",
   },
   {
-    title: "FinEdge AI Investment Assistant",
-    client: "FinEdge Capital Management",
-    category: "AI & Automation",
-    metric: "65% Cost Reduction & 4x Capacity",
-    summary:
-      "Deployed an enterprise RAG assistant that parses financial prospectuses, SEC filings, and quarterly reports in seconds for analyst teams.",
-    challenge:
-      "Investment analysts spent over 30 hours per week manually extracting balance sheet metrics from unstructured PDF financial filings.",
-    solution:
-      "Developed a custom vector search pipeline using Anthropic Claude & Llama 3, connected to an internal secure document repository with role-based access control.",
-    results: [
-      "Analyst document review time reduced from 4 hours to 15 minutes",
-      "96.4% extraction precision verified by independent audit",
-      "Saved $420k annually in manual data entry overhead",
-    ],
-    tags: ["Python", "Claude API", "Vector DB", "FastAPI", "React"],
+    id: "web-2",
+    title: "Silver Arrow Luxury Rentals",
+    year: "[ 2026 ]",
+    tags: ["Car Rental", "Vercel"],
+    category: "WEB DEVELOPMENT",
+    image: "/images/stage_1.jpg",
   },
   {
-    title: "HealthCore HIPAA Cloud Migration",
-    client: "HealthCore Telehealth",
-    category: "Cloud & Infra",
-    metric: "SOC2 & HIPAA Compliant",
-    summary:
-      "Migrated legacy patient portals to a zero-trust multi-region AWS cloud setup with automated vulnerability patching and real-time monitoring.",
-    challenge:
-      "Compliance audit flagged multiple infrastructure risks on legacy VM infrastructure, hindering enterprise B2B partner acquisition.",
-    solution:
-      "Architected Terraform-managed Kubernetes clusters on AWS EKS with encrypted data vaults, automated audit logging, and automated failover.",
-    results: [
-      "Achieved 100% compliance pass on SOC2 Type II and HIPAA audits",
-      "Infrastructure deployment times reduced from days to 8 minutes",
-      "45% reduction in monthly cloud hosting costs",
-    ],
-    tags: ["Terraform", "AWS EKS", "Kubernetes", "Datadog", "Docker"],
+    id: "web-3",
+    title: "The Crazy Entrepreneur Global",
+    year: "[ 2026 ]",
+    tags: ["Media Hub", "CMS"],
+    category: "WEB DEVELOPMENT",
+    image: "/images/about_arch_main.jpg",
   },
   {
-    title: "Stacklabs Enterprise SaaS Redesign",
-    client: "Stacklabs Software",
-    category: "UI/UX Design",
-    metric: "+180% User Activation Rate",
-    summary:
-      "Complete end-to-end design system overhaul and UX redesign for a complex developer tooling and workflow orchestration platform.",
-    challenge:
-      "Outdated UI resulted in steep user onboarding dropoff, causing a 40% trial-to-paid conversion bottleneck.",
-    solution:
-      "Conducted extensive user testing, simplified multi-step workflow configurations into guided wizards, and created a unified dark-mode design system.",
-    results: [
-      "Trial-to-paid conversion increased by 180%",
-      "System design component adoption reached 100% across dev team",
-      "User satisfaction NPS rose from +22 to +68",
-    ],
-    tags: ["Figma", "Design System", "User Research", "Prototyping", "CRO"],
+    id: "web-4",
+    title: "Apex Enterprise Cloud Portal",
+    year: "[ 2026 ]",
+    tags: ["Fintech", "React"],
+    category: "WEB DEVELOPMENT",
+    image: "/images/stage_2.jpg",
+  },
+  {
+    id: "web-5",
+    title: "Omnichannel Ecommerce Platform",
+    year: "[ 2026 ]",
+    tags: ["Shopify", "Tailwind"],
+    category: "WEB DEVELOPMENT",
+    image: "/images/stacked_service_3.jpg",
+  },
+  {
+    id: "web-6",
+    title: "Prime Estates Showcase",
+    year: "[ 2026 ]",
+    tags: ["Real Estate", "TypeScript"],
+    category: "WEB DEVELOPMENT",
+    image: "/images/stage_3.jpg",
+  },
+
+  // 2. LEAD GENERATION
+  {
+    id: "lead-1",
+    title: "B2B Outbound Acquisition Engine",
+    year: "[ 2026 ]",
+    tags: ["Apollo.io", "Cold Email"],
+    category: "LEAD GENERATION",
+    image: "/images/stacked_service_2.jpg",
+  },
+  {
+    id: "lead-2",
+    title: "High-Ticket Real Estate Pipeline",
+    year: "[ 2026 ]",
+    tags: ["Meta Ads", "Funnels"],
+    category: "LEAD GENERATION",
+    image: "/images/about_pill_portrait.jpg",
+  },
+  {
+    id: "lead-3",
+    title: "Multi-Channel Prospecting Funnel",
+    year: "[ 2026 ]",
+    tags: ["LinkedIn", "Automation"],
+    category: "LEAD GENERATION",
+    image: "/images/about_team_collab.jpg",
+  },
+  {
+    id: "lead-4",
+    title: "Automated Lead Validator & Enricher",
+    year: "[ 2026 ]",
+    tags: ["Data Intel", "API"],
+    category: "LEAD GENERATION",
+    image: "/images/stage_4.jpg",
+  },
+  {
+    id: "lead-5",
+    title: "Conversion Rate Optimization Suite",
+    year: "[ 2026 ]",
+    tags: ["Landing Pages", "CRO"],
+    category: "LEAD GENERATION",
+    image: "/images/about_innovation_team.jpg",
+  },
+  {
+    id: "lead-6",
+    title: "Enterprise Inbound Growth Funnel",
+    year: "[ 2026 ]",
+    tags: ["Google Ads", "Tracking"],
+    category: "LEAD GENERATION",
+    image: "/images/card_3d_gem.jpg",
+  },
+
+  // 3. CRM SOLUTIONS
+  {
+    id: "crm-1",
+    title: "Custom Enterprise CRM Portal",
+    year: "[ 2026 ]",
+    tags: ["Zoho Books", "API"],
+    category: "CRM SOLUTIONS",
+    image: "/images/stacked_service_3.jpg",
+  },
+  {
+    id: "crm-2",
+    title: "Automated Sales Deal Pipeline",
+    year: "[ 2026 ]",
+    tags: ["Workflow", "Webhooks"],
+    category: "CRM SOLUTIONS",
+    image: "/images/stage_2.jpg",
+  },
+  {
+    id: "crm-3",
+    title: "Real Estate Multi-Broker CRM",
+    year: "[ 2026 ]",
+    tags: ["Property Hub", "Cloud"],
+    category: "CRM SOLUTIONS",
+    image: "/images/about_arch_main.jpg",
+  },
+  {
+    id: "crm-4",
+    title: "Omnichannel WhatsApp CRM Gateway",
+    year: "[ 2026 ]",
+    tags: ["Meta API", "Support"],
+    category: "CRM SOLUTIONS",
+    image: "/images/about_future_city.png",
+  },
+  {
+    id: "crm-5",
+    title: "Client Invoicing & Billing Tracker",
+    year: "[ 2026 ]",
+    tags: ["Finance", "Automation"],
+    category: "CRM SOLUTIONS",
+    image: "/images/card_3d_sphere.jpg",
+  },
+  {
+    id: "crm-6",
+    title: "Support Desk Dispatch System",
+    year: "[ 2026 ]",
+    tags: ["Helpdesk", "Operations"],
+    category: "CRM SOLUTIONS",
+    image: "/images/card_3d_robot.jpg",
+  },
+
+  // 4. AI & AUTOMATION
+  {
+    id: "ai-1",
+    title: "Autonomous Support AI Agent",
+    year: "[ 2026 ]",
+    tags: ["LLM", "Chatbot"],
+    category: "AI & AUTOMATION",
+    image: "/images/about_ai_tech.jpg",
+  },
+  {
+    id: "ai-2",
+    title: "Smart Document & Invoice Parser",
+    year: "[ 2026 ]",
+    tags: ["OCR", "Automation"],
+    category: "AI & AUTOMATION",
+    image: "/images/stacked_service_4.jpg",
+  },
+  {
+    id: "ai-3",
+    title: "AI Lead Qualifier Bot",
+    year: "[ 2026 ]",
+    tags: ["WhatsApp AI", "CRM"],
+    category: "AI & AUTOMATION",
+    image: "/images/card_cyborg_exact.png",
+  },
+  {
+    id: "ai-4",
+    title: "Real-Time Data Sync Pipeline",
+    year: "[ 2026 ]",
+    tags: ["Zapier", "Webhooks"],
+    category: "AI & AUTOMATION",
+    image: "/images/about_3d_torus.jpg",
+  },
+  {
+    id: "ai-5",
+    title: "Predictive Business Analytics Bot",
+    year: "[ 2026 ]",
+    tags: ["Python", "AI Engine"],
+    category: "AI & AUTOMATION",
+    image: "/images/stage_1.jpg",
+  },
+  {
+    id: "ai-6",
+    title: "AI Content & Campaign Generator",
+    year: "[ 2026 ]",
+    tags: ["OpenAI", "Media"],
+    category: "AI & AUTOMATION",
+    image: "/images/hero_card_1.jpg",
+  },
+
+  // 5. SAAS DEVELOPMENT
+  {
+    id: "saas-1",
+    title: "Perky Digital Loyalty Platform",
+    year: "[ 2026 ]",
+    tags: ["Next.js", "NextGen"],
+    category: "SAAS DEVELOPMENT",
+    image: "/images/hero_card_2.jpg",
+  },
+  {
+    id: "saas-2",
+    title: "Multi-Tenant Booking Engine",
+    year: "[ 2026 ]",
+    tags: ["Cloud SaaS", "Stripe"],
+    category: "SAAS DEVELOPMENT",
+    image: "/images/stage_4.jpg",
+  },
+  {
+    id: "saas-3",
+    title: "Cloud Asset Telemetry Hub",
+    year: "[ 2026 ]",
+    tags: ["IoT", "Dashboard"],
+    category: "SAAS DEVELOPMENT",
+    image: "/images/about_future_city.png",
+  },
+  {
+    id: "saas-4",
+    title: "Global Subscription Gateway",
+    year: "[ 2026 ]",
+    tags: ["Billing", "Webhooks"],
+    category: "SAAS DEVELOPMENT",
+    image: "/images/stacked_service_1.jpg",
+  },
+  {
+    id: "saas-5",
+    title: "Creator Portfolio & Media Suite",
+    year: "[ 2026 ]",
+    tags: ["Vercel", "AWS"],
+    category: "SAAS DEVELOPMENT",
+    image: "/images/about_arch_main.jpg",
+  },
+  {
+    id: "saas-6",
+    title: "Secure API Rate-Limiter SaaS",
+    year: "[ 2026 ]",
+    tags: ["Go", "Redis"],
+    category: "SAAS DEVELOPMENT",
+    image: "/images/card_3d_gem.jpg",
+  },
+
+  // 6. APP DEVELOPMENT
+  {
+    id: "app-1",
+    title: "Luxury Mobility iOS / Android App",
+    year: "[ 2026 ]",
+    tags: ["React Native", "iOS"],
+    category: "APP DEVELOPMENT",
+    image: "/images/hero_card_3.jpg",
+  },
+  {
+    id: "app-2",
+    title: "Dealership Mobile Inventory",
+    year: "[ 2026 ]",
+    tags: ["Flutter", "Android"],
+    category: "APP DEVELOPMENT",
+    image: "/images/stacked_service_2.jpg",
+  },
+  {
+    id: "app-3",
+    title: "Field Sales CRM Mobile Application",
+    year: "[ 2026 ]",
+    tags: ["Mobile", "Cloud"],
+    category: "APP DEVELOPMENT",
+    image: "/images/stage_3.jpg",
+  },
+  {
+    id: "app-4",
+    title: "High-Performance Invoicing Mobile App",
+    year: "[ 2026 ]",
+    tags: ["Finance", "Expo"],
+    category: "APP DEVELOPMENT",
+    image: "/images/card_3d_sphere.jpg",
+  },
+  {
+    id: "app-5",
+    title: "Smart Real Estate Agent Mobile Suite",
+    year: "[ 2026 ]",
+    tags: ["Mobile UI", "Map API"],
+    category: "APP DEVELOPMENT",
+    image: "/images/about_team_collab.jpg",
+  },
+  {
+    id: "app-6",
+    title: "Instant Team Dispatch & Chat App",
+    year: "[ 2026 ]",
+    tags: ["WebSockets", "Native"],
+    category: "APP DEVELOPMENT",
+    image: "/images/about_innovation_team.jpg",
   },
 ];
 
+const filterCategories = [
+  "ALL",
+  "WEB DEVELOPMENT",
+  "LEAD GENERATION",
+  "CRM SOLUTIONS",
+  "AI & AUTOMATION",
+  "SAAS DEVELOPMENT",
+  "APP DEVELOPMENT",
+] as const;
+
+function ProjectCard({
+  project,
+  index,
+}: {
+  project: ProjectItem;
+  index: number;
+}) {
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  const { scrollYProgress } = useScroll({
+    target: cardRef,
+    offset: ["start end", "center center"],
+  });
+
+  const isEven = index % 2 === 1;
+  const initialRotate = isEven ? 18 : -18;
+
+  const rotateZ = useTransform(scrollYProgress, [0, 1], [initialRotate, 0]);
+  const scale = useTransform(scrollYProgress, [0, 1], [0.85, 1]);
+  const opacity = useTransform(scrollYProgress, [0, 1], [0.2, 1]);
+
+  return (
+    <motion.div
+      ref={cardRef}
+      style={{ rotateZ, scale, opacity }}
+      className="group relative rounded-[28px] sm:rounded-[36px] overflow-hidden bg-black shadow-2xl cursor-pointer w-full h-[420px] sm:h-[500px]"
+    >
+      {/* Full Image covering 100% of the card */}
+      <img
+        src={project.image}
+        alt={project.title}
+        className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+      />
+
+      {/* Center Brand Green Hover Button */}
+      <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20 pointer-events-none">
+        <div className="w-16 h-16 rounded-2xl bg-[#0acd00] text-white flex items-center justify-center shadow-2xl transform scale-75 group-hover:scale-100 transition-transform duration-300">
+          <ArrowUpRight className="w-8 h-8" />
+        </div>
+      </div>
+
+      {/* Floating White Gradient Glass Overlay */}
+      <div className="absolute bottom-5 left-5 right-5 sm:bottom-6 sm:left-6 sm:right-6 px-6 py-5 sm:px-7 sm:py-6 rounded-[22px] bg-gradient-to-b from-white/95 via-white/90 to-white/80 backdrop-blur-xl border border-white/80 shadow-[0_10px_30px_rgba(0,0,0,0.18)] z-10 flex flex-col justify-center gap-3">
+        <div className="flex items-center justify-between gap-4 w-full">
+          <h3 className="text-xl sm:text-2xl font-bold text-black tracking-tight font-['Syne'] m-0 leading-tight">
+            {project.title}
+          </h3>
+          <span className="text-xs sm:text-sm font-mono text-zinc-600 font-semibold shrink-0">
+            {project.year}
+          </span>
+        </div>
+
+        <div className="flex items-center gap-2 flex-wrap">
+          {project.tags.map((tag, i) => (
+            <span
+              key={i}
+              className="text-xs font-semibold font-['Montserrat'] px-3.5 py-1.5 rounded-full bg-[#0acd00] text-black shadow-sm leading-none"
+            >
+              {tag}
+            </span>
+          ))}
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
 export default function WorkPage() {
-  const [activeCategory, setActiveCategory] = useState<string>("All");
+  const [activeCategory, setActiveCategory] = useState<string>("ALL");
   const containerRef = useRef<HTMLDivElement>(null);
+  const showcaseRef = useRef<HTMLDivElement>(null);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end end"],
   });
 
-  const scale = useTransform(scrollYProgress, [0, 0.08], [0.96, 1]);
+  const { scrollYProgress: showcaseScrollY } = useScroll({
+    target: showcaseRef,
+    offset: ["start start", "end end"],
+  });
 
-  const filteredProjects =
-    activeCategory === "All"
-      ? caseStudies
-      : caseStudies.filter((item) => item.category === activeCategory);
+  const scale = useTransform(scrollYProgress, [0, 0.08], [0.96, 1]);
+  const titleScale = useTransform(showcaseScrollY, [0, 0.25], [1, 0.9]);
+  const titleOpacity = useTransform(showcaseScrollY, [0.85, 1], [1, 0.25]);
+
+  const displayedProjects =
+    activeCategory === "ALL"
+      ? allProjects
+      : allProjects.filter((p) => p.category === activeCategory);
 
   return (
     <>
@@ -126,111 +461,52 @@ export default function WorkPage() {
           style={{
             scale,
           }}
-          className="relative z-10 min-h-screen bg-[#ffffff] shadow-[0_-30px_80px_rgba(0,0,0,0.95)] origin-top rounded-t-[40px] sm:rounded-t-[56px]"
+          className="relative z-10 min-h-screen bg-[#ffffff] shadow-[0_-30px_80px_rgba(0,0,0,0.95)] origin-top rounded-t-[40px] sm:rounded-t-[56px] pt-6 sm:pt-10"
         >
-          {/* Partner Brands Marquee */}
-          <MarqueeBanner />
-
-          {/* Case Studies Section */}
-          <section className="py-20 sm:py-28 px-4 sm:px-8 max-w-7xl mx-auto">
-            <div className="text-center max-w-3xl mx-auto mb-14">
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-black/10 bg-black/5 text-xs font-bold uppercase tracking-wider text-[#0acd00] mb-4">
-                ✦ Proven Results
+          {/* Project Showcase Section */}
+          <section ref={showcaseRef} className="py-20 sm:py-28 px-4 sm:px-6 bg-[#ffffff]" aria-label="Our Projects">
+            {/* Header */}
+            <div className="text-center max-w-5xl mx-auto mb-12 sm:mb-16">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-black text-white text-xs font-bold uppercase tracking-wider mb-5 shadow-sm">
+                <span className="text-[#0acd00]">✦</span>
+                <span>PROVEN RESULTS</span>
               </div>
-              <h2 className="font-['Syne'] font-extrabold text-3xl sm:text-4xl lg:text-5xl text-black leading-tight mb-4">
+              <h2 className="font-['Syne'] font-bold text-4xl sm:text-6xl lg:text-7xl xl:text-8xl text-black leading-[1.06] mb-6 tracking-tight">
                 Case Studies &amp; <span className="text-[#0acd00]">Client Showcase</span>
               </h2>
-              <p className="text-gray-600 text-base sm:text-lg">
+              <p className="text-gray-600 text-base sm:text-xl font-['Montserrat'] max-w-2xl mx-auto">
                 Explore how we help high-growth startups and enterprise clients solve complex engineering challenges and achieve market dominance.
               </p>
             </div>
 
-            {/* Filter Tabs */}
-            <div className="flex flex-wrap justify-center gap-2 sm:gap-3 mb-16">
-              {categories.map((cat) => (
-                <button
-                  key={cat}
-                  onClick={() => setActiveCategory(cat)}
-                  className={`px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold uppercase tracking-wider transition-all duration-300 ${
-                    activeCategory === cat
-                      ? "bg-[#000000] text-white shadow-md"
-                      : "bg-[#f4f4f4] text-gray-600 hover:bg-gray-200"
-                  }`}
-                >
-                  {cat}
-                </button>
-              ))}
+            {/* Filter Tabs Bar */}
+            <div className="flex flex-wrap justify-center items-center gap-2.5 sm:gap-3.5 mb-14 sm:mb-16 max-w-7xl mx-auto px-4">
+              {filterCategories.map((cat) => {
+                const isActive = activeCategory === cat;
+                return (
+                  <button
+                    key={cat}
+                    onClick={() => setActiveCategory(cat)}
+                    className={`px-5 sm:px-6 py-2.5 rounded-full text-xs uppercase tracking-wider transition-all duration-300 ${
+                      isActive
+                        ? "bg-black text-white font-bold shadow-lg shadow-black/20 scale-105"
+                        : "bg-zinc-100 text-zinc-600 font-semibold hover:text-black hover:bg-zinc-200"
+                    }`}
+                  >
+                    {cat}
+                  </button>
+                );
+              })}
             </div>
 
-            {/* Case Studies Cards List */}
-            <div className="flex flex-col gap-10 sm:gap-14">
-              {filteredProjects.map((cs) => (
-                <article
-                  key={cs.title}
-                  className="bg-[#f7f7f7] border border-gray-200/80 rounded-3xl p-8 sm:p-12 hover:shadow-xl transition-all duration-300"
-                >
-                  <div className="flex flex-wrap justify-between items-start gap-4 mb-6">
-                    <div>
-                      <span className="inline-block px-3.5 py-1 rounded-full bg-[#0acd00]/10 text-[#0acd00] text-xs font-bold uppercase tracking-wider mb-3">
-                        {cs.category}
-                      </span>
-                      <h3 className="font-['Syne'] font-extrabold text-2xl sm:text-3xl lg:text-4xl text-black">
-                        {cs.title}
-                      </h3>
-                      <p className="text-xs sm:text-sm text-gray-500 mt-1">Client: {cs.client}</p>
-                    </div>
-                    <div className="px-4 py-2 bg-black text-[#0acd00] rounded-xl text-xs sm:text-sm font-bold shadow-sm whitespace-nowrap">
-                      {cs.metric}
-                    </div>
-                  </div>
-
-                  <p className="text-gray-600 text-sm sm:text-base leading-relaxed mb-8">
-                    {cs.summary}
-                  </p>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-white border border-gray-200/90 rounded-2xl p-6 sm:p-8 mb-8 shadow-sm">
-                    <div>
-                      <h4 className="text-xs font-bold text-[#0acd00] uppercase tracking-wider mb-2">
-                        The Challenge
-                      </h4>
-                      <p className="text-xs sm:text-sm text-gray-600 leading-relaxed">{cs.challenge}</p>
-                    </div>
-                    <div>
-                      <h4 className="text-xs font-bold text-black uppercase tracking-wider mb-2">
-                        The Solution
-                      </h4>
-                      <p className="text-xs sm:text-sm text-gray-600 leading-relaxed">{cs.solution}</p>
-                    </div>
-                  </div>
-
-                  <div>
-                    <h4 className="font-['Syne'] font-bold text-sm text-black uppercase tracking-wider mb-4">
-                      Verified Outcomes
-                    </h4>
-                    <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-8">
-                      {cs.results.map((res) => (
-                        <li
-                          key={res}
-                          className="flex items-start gap-2.5 text-xs sm:text-sm text-gray-700 bg-white border border-gray-200/60 rounded-xl p-3.5"
-                        >
-                          <span className="text-[#0acd00] font-bold text-base leading-none">✓</span>
-                          <span>{res}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  <div className="flex flex-wrap gap-2 pt-6 border-t border-gray-200">
-                    {cs.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="px-3.5 py-1.5 bg-black/5 border border-black/10 rounded-full text-xs font-semibold text-gray-700"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </article>
+            {/* 2-Column Grid with Staggered Scroll Parallax & Rotations */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 sm:gap-x-10 lg:gap-x-12 gap-y-12 sm:gap-y-16 lg:gap-y-20 max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+              {displayedProjects.map((project, index) => (
+                <ProjectCard
+                  key={`${activeCategory}-${project.id}`}
+                  project={project}
+                  index={index}
+                />
               ))}
             </div>
           </section>
@@ -242,12 +518,12 @@ export default function WorkPage() {
                 <h2 className="font-['Syne'] font-extrabold text-3xl sm:text-4xl lg:text-5xl text-white leading-tight mb-4">
                   Have a Similar Project in Mind?
                 </h2>
-                <p className="text-gray-400 text-base sm:text-lg mb-8">
-                  Let&apos;s discuss how we can build a scalable engineering solution for your business.
+                <p className="text-gray-400 text-base sm:text-lg mb-8 font-['Montserrat']">
+                  Let&apos;s discuss how we can build a scalable engineering solution tailored to your business goals.
                 </p>
                 <Link
                   href="/contact"
-                  className="inline-flex items-center gap-2 bg-[#0acd00] text-black font-bold text-base px-8 py-4 rounded-full hover:brightness-110 shadow-lg shadow-[#0acd00]/25 transition-all duration-300"
+                  className="inline-flex items-center gap-2 bg-[#0acd00] text-black font-bold text-base px-8 py-4 rounded-full hover:brightness-110 shadow-lg shadow-[#0acd00]/25 transition-all duration-300 font-['Montserrat']"
                 >
                   <span>Start Your Project Case Review</span>
                   <span aria-hidden="true">→</span>

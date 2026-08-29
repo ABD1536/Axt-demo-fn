@@ -24,7 +24,6 @@ export default function Home() {
     offset: ["start start", "end end"],
   });
 
-  // Dynamic scale transformation for overlapping sheet on scroll
   const scale = useTransform(scrollYProgress, [0, 0.08], [0.96, 1]);
 
   return (
@@ -39,7 +38,7 @@ export default function Home() {
         {/* 2. SCROLL SPACER: Provides natural scroll distance before sheet overlaps */}
         <div className="h-screen w-full pointer-events-none" aria-hidden="true" />
 
-        {/* 3. OVERLAPPING SHEET: Slides up and overlaps over the fixed hero */}
+        {/* 3. OVERLAPPING SHEET: Slides up and overlaps smoothly over the fixed hero with initial side gaps that fill on scroll */}
         <motion.div
           style={{
             scale,
