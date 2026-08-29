@@ -29,6 +29,7 @@ const config: Config = {
         montserrat: ["Montserrat", "sans-serif"],
         display: ["Syne", "Montserrat", "sans-serif"],
         sans: ["Montserrat", "system-ui", "-apple-system", "sans-serif"],
+        serif: ["'Playfair Display'", "ui-serif", "Georgia", "Cambria", "Times New Roman", "serif"],
       },
       boxShadow: {
         "neon-glow": "0 0 30px rgba(10, 205, 0, 0.35)",
