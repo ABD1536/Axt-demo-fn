@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Moon, ArrowRight, ChevronDown, ArrowUpRight } from "lucide-react";
 
@@ -63,11 +64,10 @@ const servicesList: ServiceItem[] = [
 interface NavItem {
   name: string;
   href: string;
-  active?: boolean;
 }
 
 const navItems: NavItem[] = [
-  { name: "HOME", href: "/", active: true },
+  { name: "HOME", href: "/" },
   { name: "ABOUT", href: "/about" },
   { name: "SERVICES", href: "/services" },
   { name: "WORK", href: "/work" },
@@ -77,6 +77,7 @@ const navItems: NavItem[] = [
 
 /* ── Navbar Component ────────────────────────────────────────── */
 export default function Navbar() {
+  const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<string | null>(null);
   const [isMobileServicesOpen, setIsMobileServicesOpen] = useState(false);
@@ -300,7 +301,10 @@ export default function Navbar() {
                     {/* LEFT (Desktop) / TOP (Mobile): Navigation Links */}
                     <div className="axtrait-menu-links">
                       {navItems.map((item) => {
-                        const isActive = item.active;
+                        const isActive =
+                          item.href === "/"
+                            ? pathname === "/"
+                            : pathname === item.href || pathname?.startsWith(item.href + "/");
                         const isServices = item.name === "SERVICES";
 
                         if (isServices) {
@@ -341,25 +345,38 @@ export default function Navbar() {
                                 </button>
                               </div>
 
-                              {/* Mobile Accordion Button */}
+                              {/* Mobile Navigation Header: Direct Link to /services + Toggle Chevron */}
                               <div className="md:hidden flex flex-col">
-                                <button
-                                  type="button"
-                                  onClick={() => setIsMobileServicesOpen((v) => !v)}
-                                  className={`axtrait-menu-link w-full justify-between items-center text-left ${
-                                    isMobileServicesOpen ? "text-[#0acd00]" : ""
-                                  }`}
-                                  aria-expanded={isMobileServicesOpen}
-                                >
-                                  <span>{item.name}</span>
-                                  <ChevronDown
-                                    className={`w-4 h-4 transition-transform duration-300 ${
-                                      isMobileServicesOpen
-                                        ? "rotate-180 text-[#0acd00]"
-                                        : "text-zinc-400"
-                                    }`}
-                                  />
-                                </button>
+                                <div className="flex items-center justify-between">
+                                  <Link
+                                    href="/services"
+                                    onClick={closeMenu}
+                                    className={`axtrait-menu-link flex-1 ${
+                                      isActive ? "active" : ""
+                                    } ${isMobileServicesOpen ? "text-[#0acd00]" : ""}`}
+                                  >
+                                    <span>{item.name}</span>
+                                  </Link>
+                                  <button
+                                    type="button"
+                                    onClick={(e) => {
+                                      e.preventDefault();
+                                      e.stopPropagation();
+                                      setIsMobileServicesOpen((v) => !v);
+                                    }}
+                                    aria-label="Toggle services submenu"
+                                    className="p-2.5 sm:p-3 text-zinc-500 hover:text-black transition-colors shrink-0 flex items-center justify-center"
+                                    aria-expanded={isMobileServicesOpen}
+                                  >
+                                    <ChevronDown
+                                      className={`w-4 h-4 transition-transform duration-300 ${
+                                        isMobileServicesOpen
+                                          ? "rotate-180 text-[#0acd00]"
+                                          : "text-zinc-400"
+                                      }`}
+                                    />
+                                  </button>
+                                </div>
 
                                 {/* Mobile Accordion Expanded Content */}
                                 <AnimatePresence>
@@ -384,6 +401,22 @@ export default function Navbar() {
                                       }}
                                       className="overflow-hidden pl-2 pr-1 pt-1 pb-2 flex flex-col gap-2"
                                     >
+                                      {/* All Services Overview Link Card */}
+                                      <Link
+                                        href="/services"
+                                        onClick={closeMenu}
+                                        className="p-3 rounded-xl bg-[#0acd00]/10 border border-[#0acd00]/30 active:bg-[#0acd00]/20 flex items-center justify-between transition-all group"
+                                      >
+                                        <div className="flex items-center gap-2">
+                                          <span className="text-xs font-bold text-[#0acd00]">✦</span>
+                                          <span className="text-sm font-bold text-zinc-900 font-['Syne'] group-hover:text-[#0acd00] transition-colors">
+                                            All Services Overview
+                                          </span>
+                                        </div>
+                                        <div className="w-7 h-7 rounded-full bg-[#0acd00] flex items-center justify-center shrink-0 text-black shadow-sm group-hover:scale-105 transition-transform">
+                                          <ArrowRight className="w-3.5 h-3.5" />
+                                        </div>
+                                      </Link>
                                       {servicesList.map((service) => (
                                         <Link
                                           key={service.number}

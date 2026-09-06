@@ -1,10 +1,9 @@
 "use client";
 
-import { useRef, useState, type FormEvent } from "react";
+import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
-import MarqueeBanner from "@/components/MarqueeBanner";
 import Footer from "@/components/Footer";
 
 const articles = [
@@ -65,7 +64,6 @@ const articles = [
 ];
 
 export default function BlogPage() {
-  const [subscribed, setSubscribed] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const { scrollYProgress } = useScroll({
@@ -74,11 +72,6 @@ export default function BlogPage() {
   });
 
   const scale = useTransform(scrollYProgress, [0, 0.08], [0.96, 1]);
-
-  const handleSubscribe = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setSubscribed(true);
-  };
 
   return (
     <>
@@ -105,45 +98,19 @@ export default function BlogPage() {
           style={{
             scale,
           }}
-          className="relative z-10 min-h-screen bg-[#ffffff] shadow-[0_-30px_80px_rgba(0,0,0,0.95)] origin-top rounded-t-[40px] sm:rounded-t-[56px]"
+          className="relative z-10 min-h-screen bg-[#ffffff] shadow-[0_-30px_80px_rgba(0,0,0,0.95)] origin-top rounded-t-[40px] sm:rounded-t-[56px] pt-14 sm:pt-20 overflow-hidden"
         >
-          {/* Partner Brands Marquee */}
-          <MarqueeBanner />
-
-          {/* Featured Post Banner */}
-          <section className="py-16 sm:py-20 px-4 sm:px-8 max-w-7xl mx-auto">
-            <div className="bg-[#f7f7f7] border border-gray-200/80 rounded-3xl p-8 sm:p-12 hover:shadow-xl transition-all duration-300">
-              <div className="flex items-center gap-3 mb-6">
-                <span className="px-3.5 py-1 rounded-full bg-[#0acd00]/10 text-[#0acd00] text-xs font-bold uppercase tracking-wider">
-                  Featured Publication
-                </span>
-                <span className="text-xs sm:text-sm text-gray-500 font-medium">Aug 1, 2026 • 7 min read</span>
-              </div>
-              <h2 className="font-['Syne'] font-extrabold text-2xl sm:text-3xl lg:text-4xl text-black leading-tight mb-4">
-                Building Production-Grade RAG Pipelines with Claude 3.5 &amp; Next.js 15
-              </h2>
-              <p className="text-gray-600 text-sm sm:text-base leading-relaxed mb-8 max-w-3xl">
-                Discover how our engineering team builds ultra-responsive vector search systems capable of processing millions of enterprise documents with sub-100ms latency.
-              </p>
-              <div className="flex justify-between items-center flex-wrap gap-4 pt-6 border-t border-gray-200">
-                <span className="text-xs sm:text-sm font-semibold text-gray-700">By Alex Rivera, Head of AI</span>
-                <span className="text-xs sm:text-sm font-bold text-[#0acd00] hover:underline cursor-pointer">
-                  Read Full Article →
-                </span>
-              </div>
-            </div>
-          </section>
-
           {/* Articles Grid */}
-          <section className="py-16 sm:py-20 px-4 sm:px-8 max-w-7xl mx-auto">
+          <section className="pb-20 sm:pb-28 px-4 sm:px-8 max-w-7xl mx-auto">
             <div className="text-center max-w-3xl mx-auto mb-16">
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-black/10 bg-black/5 text-xs font-bold uppercase tracking-wider text-[#0acd00] mb-4">
-                ✦ Latest Publications
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-black text-white border border-zinc-800 text-xs font-bold uppercase tracking-wider mb-4 shadow-sm font-['Montserrat']">
+                <span>✦</span>
+                <span>Latest Publications</span>
               </div>
-              <h2 className="font-['Syne'] font-extrabold text-3xl sm:text-4xl lg:text-5xl text-black leading-tight mb-4">
+              <h2 className="font-['Syne'] font-bold text-3xl sm:text-4xl lg:text-5xl text-black leading-tight mb-4">
                 Explore Our <span className="text-[#0acd00]">Knowledge Base</span>
               </h2>
-              <p className="text-gray-600 text-base sm:text-lg">
+              <p className="text-gray-600 text-base sm:text-lg font-['Montserrat']">
                 Technical insights, architecture case studies, and engineering benchmarks.
               </p>
             </div>
@@ -152,72 +119,33 @@ export default function BlogPage() {
               {articles.map((art) => (
                 <article
                   key={art.title}
-                  className="bg-[#f7f7f7] border border-gray-200/80 rounded-2xl p-7 flex flex-col justify-between hover:shadow-xl hover:border-[#0acd00]/40 transition-all duration-300"
+                  className="group rounded-2xl p-7 flex flex-col justify-between bg-gradient-to-br from-[#0a0a0c] via-[#051a09] to-[#02280d] border border-[#0acd00]/30 hover:border-[#0acd00]/70 shadow-[0_4px_20px_rgba(0,0,0,0.35)] hover:shadow-[0_6px_25px_rgba(10,205,0,0.18)] hover:-translate-y-1 transition-all duration-300"
                 >
                   <div>
                     <div className="flex justify-between items-center mb-4">
-                      <span className="px-3 py-1 bg-black/5 border border-black/10 text-gray-700 text-xs font-semibold rounded-full">
+                      <span className="px-3.5 py-1.5 rounded-full bg-white text-black font-semibold text-xs tracking-wide border border-white shadow-sm font-['Montserrat']">
                         {art.category}
                       </span>
-                      <span className="text-xs text-gray-400 font-medium">{art.readTime}</span>
+                      <span className="text-zinc-400 text-xs font-mono">{art.readTime}</span>
                     </div>
 
-                    <h3 className="font-['Syne'] font-bold text-lg sm:text-xl text-black leading-snug mb-3">
+                    <h3 className="text-white font-['Syne'] font-bold text-lg sm:text-xl leading-snug group-hover:text-[#0acd00] transition-colors mt-4 mb-3">
                       {art.title}
                     </h3>
 
-                    <p className="text-xs sm:text-sm text-gray-600 leading-relaxed mb-6">
+                    <p className="text-zinc-300 text-xs sm:text-sm font-['Montserrat'] leading-relaxed mb-6 line-clamp-3">
                       {art.summary}
                     </p>
                   </div>
 
-                  <div className="pt-4 border-t border-gray-200 flex justify-between items-center text-xs font-semibold">
-                    <span className="text-gray-400">{art.date}</span>
-                    <span className="text-[#0acd00] hover:underline cursor-pointer">Read Article →</span>
+                  <div className="pt-4 border-t border-zinc-800/80 flex justify-between items-center text-xs font-semibold">
+                    <span className="text-zinc-400 text-xs font-mono">{art.date}</span>
+                    <span className="text-[#0acd00] font-semibold text-xs sm:text-sm inline-flex items-center gap-1 group-hover:gap-2 transition-all font-['Montserrat'] cursor-pointer">
+                      Read Article <span className="transition-transform group-hover:translate-x-0.5">→</span>
+                    </span>
                   </div>
                 </article>
               ))}
-            </div>
-          </section>
-
-          {/* Newsletter Subscription */}
-          <section className="py-20 sm:py-28 px-4 sm:px-8 max-w-7xl mx-auto">
-            <div className="bg-[#000000] text-white rounded-3xl p-10 sm:p-16 text-center relative overflow-hidden border border-white/10 shadow-2xl">
-              <div className="relative z-10 max-w-2xl mx-auto">
-                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/15 bg-white/5 text-xs font-bold uppercase tracking-wider text-[#0acd00] mb-4">
-                  ✦ Stay Ahead
-                </div>
-                <h2 className="font-['Syne'] font-extrabold text-3xl sm:text-4xl lg:text-5xl text-white leading-tight mb-4">
-                  Subscribe to Axtrait Digest
-                </h2>
-                <p className="text-gray-400 text-base sm:text-lg mb-8">
-                  Get our monthly breakdown of tech architecture, AI innovations, and B2B growth benchmarks delivered directly to your inbox.
-                </p>
-
-                {subscribed ? (
-                  <div className="inline-flex items-center gap-2 px-6 py-3.5 bg-[#0acd00]/20 border border-[#0acd00]/40 rounded-full text-[#0acd00] font-bold text-sm">
-                    ✓ You&apos;re subscribed! Welcome to Axtrait Digest.
-                  </div>
-                ) : (
-                  <form
-                    onSubmit={handleSubscribe}
-                    className="flex flex-col sm:flex-row gap-3 justify-center max-w-md mx-auto"
-                  >
-                    <input
-                      type="email"
-                      placeholder="Enter your work email"
-                      required
-                      className="px-5 py-3.5 rounded-full bg-white/10 border border-white/20 text-white placeholder-gray-500 text-sm outline-none focus:border-[#0acd00] transition-colors flex-1"
-                    />
-                    <button
-                      type="submit"
-                      className="bg-[#0acd00] text-black font-bold text-sm px-8 py-3.5 rounded-full hover:brightness-110 shadow-lg shadow-[#0acd00]/25 transition-all"
-                    >
-                      Subscribe Now
-                    </button>
-                  </form>
-                )}
-              </div>
             </div>
           </section>
 

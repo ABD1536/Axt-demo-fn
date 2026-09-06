@@ -43,9 +43,11 @@ export interface ServiceDetail {
   introHeadline: string;
   introDescription: string;
   metrics: MetricItem[];
+  dualShowcaseImages?: [string, string];
   capabilitiesTitle: string;
   capabilitiesSubtitle: string;
   capabilities: CapabilityItem[];
+  fullWidthBannerImage?: string;
   processTitle: string;
   processSubtitle: string;
   processSteps: ProcessStep[];
@@ -74,54 +76,62 @@ export const servicesData: Record<string, ServiceDetail> = {
     introBadge: "ENGINEERING EXCELLENCE",
     introHeadline: "High-Performance Digital Platforms That Convert & Scale",
     introDescription:
-      "We architect and build ultra-fast, responsive web applications and enterprise platforms. By pairing headless CMS engines with edge compute and fluid micro-animations, we turn passive visitors into engaged customers and high-value pipeline.",
+      "We architect ultra-fast, responsive web applications and enterprise platforms. By pairing headless CMS engines with edge compute and fluid micro-animations, we turn visitors into high-value pipeline.",
     metrics: [
       { label: "Lighthouse Performance", value: "99/100" },
       { label: "Average Conversion Lift", value: "+142%" },
       { label: "Global Edge Latency", value: "<120ms" },
       { label: "Uptime Reliability", value: "99.99%" },
     ],
+    dualShowcaseImages: ["/images/stacked_service_1.jpg", "/images/hero_card_2.jpg"],
     capabilitiesTitle: "Core Web Capabilities",
     capabilitiesSubtitle: "From high-traffic portals to bespoke web apps, explore our full spectrum of web engineering solutions.",
     capabilities: [
       {
-        icon: "Code2",
-        title: "Custom Web Applications",
-        description: "Bespoke full-stack web applications built with Next.js 15, React, TypeScript, and serverless compute, engineered for maximum velocity.",
-        tags: ["Next.js 15", "TypeScript", "Edge Functions", "SSR/ISR"],
+        icon: "Layout",
+        title: "Corporate & Brand Flagships",
+        description:
+          "High-end, bespoke agency and corporate websites designed to position authority and captivate enterprise clients.",
+        tags: ["Bespoke UI/UX", "Brand Authority", "Next.js", "Motion Design"],
       },
       {
         icon: "ShoppingBag",
         title: "Headless E-Commerce",
-        description: "Lightning-fast headless storefronts powered by Shopify Plus, Stripe, Medusa, and Algolia for ultra-smooth checkout flows.",
-        tags: ["Shopify Plus", "Stripe API", "Headless Cart", "Instant Search"],
+        description:
+          "Ultra-fast storefronts built on Shopify Plus, Medusa, and Stripe with instant search and sub-second checkouts.",
+        tags: ["Shopify Plus", "Medusa.js", "Stripe API", "Instant Search"],
       },
       {
-        icon: "Layout",
-        title: "Corporate & Brand Platforms",
-        description: "Dynamic digital flagships featuring modular content models (Sanity, Storyblok, Strapi) that empower marketing teams to publish without dev friction.",
-        tags: ["Sanity.io", "Storyblok", "Modular Blocks", "Framer Motion"],
+        icon: "Code2",
+        title: "Custom Web Applications",
+        description:
+          "Dynamic Next.js and React full-stack web applications engineered for heavy compute and complex user flows.",
+        tags: ["Next.js 15", "React", "Serverless", "Edge Compute"],
       },
       {
-        icon: "Database",
-        title: "Full-Stack Cloud Backends",
-        description: "Resilient backend systems, PostgreSQL database schemas, Redis caching layers, and high-throughput REST & GraphQL APIs.",
-        tags: ["PostgreSQL", "Supabase", "Prisma ORM", "Redis Cache"],
-      },
-      {
-        icon: "Palette",
-        title: "Design Systems & UI Engineering",
-        description: "Pixel-perfect component architectures synced with Figma design tokens, custom iconography, and responsive accessibility compliance.",
-        tags: ["Tailwind CSS", "Figma Sync", "Radix UI", "WCAG 2.1 AA"],
+        icon: "ShieldCheck",
+        title: "B2B & Client Portals",
+        description:
+          "Secure authenticated dashboards, customer portals, and internal tooling with role-based access control.",
+        tags: ["Auth0 / Clerk", "RBAC", "REST & GraphQL", "Live Dashboards"],
       },
       {
         icon: "Zap",
-        title: "Core Web Vitals & SEO Architecture",
-        description: "Technical search engine optimization, semantic microdata schema, dynamic sitemaps, and sub-second asset delivery pipelines.",
-        tags: ["Core Web Vitals", "Schema Markup", "Edge CDN", "Dynamic OpenGraph"],
+        title: "High-Converting Landing Pages & Funnels",
+        description:
+          "Lightning-fast campaign landing pages engineered specifically for high conversion rates and paid media traffic.",
+        tags: ["A/B Testing", "Sub-Second Load", "Conversion Rate", "Analytics"],
+      },
+      {
+        icon: "Database",
+        title: "Vast / Enterprise Content Platforms",
+        description:
+          "Scalable headless CMS architectures (Sanity/Strapi) built for high-traffic multi-region digital properties.",
+        tags: ["Sanity CMS", "Strapi", "Multi-Region", "ISR / Caching"],
       },
     ],
-    processTitle: "Our 4-Stage Execution Process",
+    fullWidthBannerImage: "/images/parallax_office.jpg",
+    processTitle: "Our 4-Stage\nExecution Process",
     processSubtitle: "A disciplined, transparent delivery framework engineered to take your product from concept to global launch.",
     processSteps: [
       {
@@ -153,21 +163,37 @@ export const servicesData: Record<string, ServiceDetail> = {
     techStackSubtitle: "We build exclusively on modern, high-performance tools that guarantee maintainability and speed.",
     techStack: [
       "Next.js 15",
-      "TypeScript",
       "React 19",
+      "TypeScript",
       "Tailwind CSS",
+      "Framer Motion",
+      "HTML5 / CSS3",
+      "Vue.js",
+      "Vite",
+      "WordPress",
+      "Elementor",
+      "Webflow",
+      "Framer",
+      "Sanity.io",
+      "Strapi",
+      "Storyblok",
+      "Shopify Plus",
+      "WooCommerce",
+      "Medusa.js",
+      "Stripe API",
+      "Node.js",
       "PostgreSQL",
       "Supabase",
-      "Node.js",
       "Redis",
-      "Prisma",
+      "Prisma ORM",
+      "MongoDB",
+      "GraphQL",
+      "REST APIs",
       "Vercel",
       "AWS",
-      "Framer Motion",
-      "GraphQL",
-      "Stripe",
-      "Sanity.io",
+      "Cloudflare",
       "Docker",
+      "GitHub Actions",
     ],
     caseStudiesTitle: "Featured Web Development Work",
     caseStudiesSubtitle: "Real-world web platforms delivering measurable revenue and engagement metrics.",
@@ -233,6 +259,7 @@ export const servicesData: Record<string, ServiceDetail> = {
       { label: "Generated Pipeline Value", value: "$4.2M+" },
       { label: "Cost Per Qualified Lead", value: "-45%" },
     ],
+    dualShowcaseImages: ["/images/stacked_service_2.jpg", "/images/stage_2.jpg"],
     capabilitiesTitle: "Acquisition & Outbound Capabilities",
     capabilitiesSubtitle: "Comprehensive outbound and inbound systems engineered to deliver qualified sales conversations on autopilot.",
     capabilities: [
@@ -273,7 +300,8 @@ export const servicesData: Record<string, ServiceDetail> = {
         tags: ["HubSpot Sync", "Slack Webhooks", "Make.com", "Lead Scoring"],
       },
     ],
-    processTitle: "Our Outbound Engine Deployment Flow",
+    fullWidthBannerImage: "/images/about_arch_main.jpg",
+    processTitle: "Our Outbound Engine\nDeployment Flow",
     processSubtitle: "How we launch, test, and scale a predictable pipeline of qualified buyers for your company.",
     processSteps: [
       {
@@ -316,6 +344,10 @@ export const servicesData: Record<string, ServiceDetail> = {
       "Meta Ads",
       "OpenAI API",
       "ZeroBounce",
+      "PhantomBuster",
+      "Prospeo",
+      "Lemlist",
+      "Stripe API",
     ],
     caseStudiesTitle: "Featured Lead Generation Campaigns",
     caseStudiesSubtitle: "Proven B2B campaigns that scaled pipeline and generated high-ticket sales meetings.",
@@ -381,6 +413,7 @@ export const servicesData: Record<string, ServiceDetail> = {
       { label: "Rep Admin Hours Saved", value: "20hrs/wk" },
       { label: "Close Rate Increase", value: "+28%" },
     ],
+    dualShowcaseImages: ["/images/stage_3.jpg", "/images/stacked_service_4.jpg"],
     capabilitiesTitle: "CRM & RevOps Capabilities",
     capabilitiesSubtitle: "Engineered CRM systems that align marketing, sales, and client onboarding into one frictionless ecosystem.",
     capabilities: [
@@ -421,7 +454,8 @@ export const servicesData: Record<string, ServiceDetail> = {
         tags: ["Zero Data Loss", "Deduplication", "Schema Mapping", "API Importer"],
       },
     ],
-    processTitle: "Our CRM Engineering Lifecycle",
+    fullWidthBannerImage: "/images/about_innovation_team.jpg",
+    processTitle: "Our CRM Engineering\nLifecycle",
     processSubtitle: "A systematic transformation that turns messy sales pipelines into automated revenue engines.",
     processSteps: [
       {
@@ -464,6 +498,10 @@ export const servicesData: Record<string, ServiceDetail> = {
       "PostgreSQL",
       "Cal.com",
       "Retool",
+      "Zendesk",
+      "ClickUp",
+      "Monday.com",
+      "ActiveCampaign",
     ],
     caseStudiesTitle: "Featured CRM Case Studies",
     caseStudiesSubtitle: "Real-world revenue systems delivering measurable sales velocity and operational clarity.",
@@ -529,6 +567,7 @@ export const servicesData: Record<string, ServiceDetail> = {
       { label: "Operational Cost Reduction", value: "-55%" },
       { label: "System Availability", value: "24/7/365" },
     ],
+    dualShowcaseImages: ["/images/about_ai_tech.jpg", "/images/stage_1.jpg"],
     capabilitiesTitle: "AI & Automation Capabilities",
     capabilitiesSubtitle: "Cutting-edge artificial intelligence systems designed to multiply operational throughput.",
     capabilities: [
@@ -569,7 +608,8 @@ export const servicesData: Record<string, ServiceDetail> = {
         tags: ["Semantic Search", "Enterprise Security", "Data Encryption", "OAuth2"],
       },
     ],
-    processTitle: "Our AI Implementation Blueprint",
+    fullWidthBannerImage: "/images/parallax_office.jpg",
+    processTitle: "Our AI Implementation\nBlueprint",
     processSubtitle: "How we audit, engineer, test, and deploy production-grade AI agents into your business.",
     processSteps: [
       {
@@ -612,6 +652,10 @@ export const servicesData: Record<string, ServiceDetail> = {
       "ElevenLabs",
       "Vercel AI SDK",
       "PostgreSQL (pgvector)",
+      "Ollama",
+      "Whisper AI",
+      "ChromaDB",
+      "Hugging Face",
     ],
     caseStudiesTitle: "Featured AI & Automation Deployments",
     caseStudiesSubtitle: "Measurable efficiency breakthroughs delivered with custom AI agents and workflows.",
@@ -677,6 +721,7 @@ export const servicesData: Record<string, ServiceDetail> = {
       { label: "Multi-Tenant Isolation", value: "Bank-Grade" },
       { label: "Deployment Cycle", value: "Instant CI/CD" },
     ],
+    dualShowcaseImages: ["/images/stacked_service_3.jpg", "/images/stage_2.jpg"],
     capabilitiesTitle: "SaaS Engineering Capabilities",
     capabilitiesSubtitle: "Full-cycle software engineering designed for high availability, security, and recurring subscription revenue.",
     capabilities: [
@@ -717,7 +762,8 @@ export const servicesData: Record<string, ServiceDetail> = {
         tags: ["Docker", "AWS ECS", "PgBouncer", "Terraform / GitHub Actions"],
       },
     ],
-    processTitle: "Our SaaS Product Engineering Lifecycle",
+    fullWidthBannerImage: "/images/about_team_collab.jpg",
+    processTitle: "Our SaaS Product\nEngineering Lifecycle",
     processSubtitle: "How we take your software vision from architectural design to profitable subscription product.",
     processSteps: [
       {
@@ -749,6 +795,7 @@ export const servicesData: Record<string, ServiceDetail> = {
     techStackSubtitle: "Modern, battle-tested software engineering tools built for scale and developer velocity.",
     techStack: [
       "Next.js 15",
+      "React 19",
       "TypeScript",
       "Node.js",
       "PostgreSQL",
@@ -760,6 +807,9 @@ export const servicesData: Record<string, ServiceDetail> = {
       "Stripe Billing",
       "Tailwind CSS",
       "GitHub Actions",
+      "GraphQL",
+      "tRPC",
+      "Vercel",
     ],
     caseStudiesTitle: "Featured SaaS Applications",
     caseStudiesSubtitle: "Real-world cloud software platforms driving recurring subscription revenue.",
@@ -825,6 +875,7 @@ export const servicesData: Record<string, ServiceDetail> = {
       { label: "App Store Rating Avg", value: "4.9/5" },
       { label: "Codebase Reusability", value: "90%+" },
     ],
+    dualShowcaseImages: ["/images/stage_1.jpg", "/images/stage_3.jpg"],
     capabilitiesTitle: "Mobile Development Capabilities",
     capabilitiesSubtitle: "Full-cycle iOS and Android app engineering from wireframing to App Store approval.",
     capabilities: [
@@ -865,7 +916,8 @@ export const servicesData: Record<string, ServiceDetail> = {
         tags: ["App Store Review", "Google Play Console", "TestFlight", "Privacy Nutrition Labels"],
       },
     ],
-    processTitle: "Our Mobile App Development Lifecycle",
+    fullWidthBannerImage: "/images/about_arch_main.jpg",
+    processTitle: "Our Mobile App\nDevelopment Lifecycle",
     processSubtitle: "From initial gesture wireframes to published App Store success.",
     processSteps: [
       {
@@ -900,7 +952,8 @@ export const servicesData: Record<string, ServiceDetail> = {
       "Expo SDK",
       "TypeScript",
       "Flutter",
-      "Swift / Kotlin",
+      "Swift",
+      "Kotlin",
       "Firebase",
       "RevenueCat",
       "Supabase",
@@ -908,6 +961,9 @@ export const servicesData: Record<string, ServiceDetail> = {
       "GraphQL",
       "Tailwind (NativeWind)",
       "TestFlight",
+      "SQLite",
+      "WatermelonDB",
+      "App Store Connect",
     ],
     caseStudiesTitle: "Featured Mobile Applications",
     caseStudiesSubtitle: "Engaging native and cross-platform apps published on the App Store and Google Play.",
