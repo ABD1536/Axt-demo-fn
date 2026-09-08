@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
+import Image from "next/image";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import Footer from "@/components/Footer";
@@ -13,6 +14,7 @@ const articles = [
     readTime: "7 min read",
     date: "Aug 1, 2026",
     author: "Alex Rivera, Head of AI",
+    image: "/images/about_ai_tech.jpg",
     summary:
       "A technical walkthrough on constructing low-latency retrieval systems for enterprise vector search, including caching strategies and context window optimization.",
   },
@@ -22,6 +24,7 @@ const articles = [
     readTime: "5 min read",
     date: "Jul 24, 2026",
     author: "David Chen, Lead Architect",
+    image: "/images/about_arch_main.jpg",
     summary:
       "How modular micro-frontends and edge-rendered Next.js applications enable 4x faster feature iteration for high-scale enterprise engineering teams.",
   },
@@ -31,6 +34,7 @@ const articles = [
     readTime: "9 min read",
     date: "Jul 15, 2026",
     author: "Marcus Vance, Director of IT",
+    image: "/images/stacked_service_1.jpg",
     summary:
       "Essential patterns for blue-green deployments, database schema migrations without downtime, and proactive monitoring with Prometheus.",
   },
@@ -40,6 +44,7 @@ const articles = [
     readTime: "4 min read",
     date: "Jul 08, 2026",
     author: "Elena Rostova, Product Designer",
+    image: "/images/card_3d_gem.jpg",
     summary:
       "Key color contrast ratios, accessibility guidelines, and component token design tactics for complex enterprise dashboard interfaces.",
   },
@@ -49,6 +54,7 @@ const articles = [
     readTime: "6 min read",
     date: "Jun 28, 2026",
     author: "Marcus Vance, Director of IT",
+    image: "/images/card_3d_robot.jpg",
     summary:
       "Practical defensive coding techniques, rate-limiting strategies, and API security headers for modern Node.js and Next.js applications.",
   },
@@ -58,6 +64,7 @@ const articles = [
     readTime: "8 min read",
     date: "Jun 14, 2026",
     author: "Alex Rivera, Head of AI",
+    image: "/images/about_future_city.png",
     summary:
       "An empirical study measuring cost reductions, employee productivity gains, and resolution speeds after implementing internal AI assistants.",
   },
@@ -119,30 +126,44 @@ export default function BlogPage() {
               {articles.map((art) => (
                 <article
                   key={art.title}
-                  className="group rounded-2xl p-7 flex flex-col justify-between bg-gradient-to-br from-[#0a0a0c] via-[#051a09] to-[#02280d] border border-[#0acd00]/30 hover:border-[#0acd00]/70 shadow-[0_4px_20px_rgba(0,0,0,0.35)] hover:shadow-[0_6px_25px_rgba(10,205,0,0.18)] hover:-translate-y-1 transition-all duration-300"
+                  className="group rounded-2xl overflow-hidden flex flex-col bg-gradient-to-br from-[#0a0a0c] via-[#051a09] to-[#02280d] border border-[#0acd00]/30 hover:border-[#0acd00]/70 shadow-[0_4px_20px_rgba(0,0,0,0.35)] hover:shadow-[0_6px_25px_rgba(10,205,0,0.18)] hover:-translate-y-1 transition-all duration-300"
                 >
-                  <div>
-                    <div className="flex justify-between items-center mb-4">
-                      <span className="px-3.5 py-1.5 rounded-full bg-white text-black font-semibold text-xs tracking-wide border border-white shadow-sm font-['Montserrat']">
-                        {art.category}
-                      </span>
-                      <span className="text-zinc-400 text-xs font-mono">{art.readTime}</span>
-                    </div>
-
-                    <h3 className="text-white font-['Syne'] font-bold text-lg sm:text-xl leading-snug group-hover:text-[#0acd00] transition-colors mt-4 mb-3">
-                      {art.title}
-                    </h3>
-
-                    <p className="text-zinc-300 text-xs sm:text-sm font-['Montserrat'] leading-relaxed mb-6 line-clamp-3">
-                      {art.summary}
-                    </p>
+                  {/* Top Thumbnail Image Container */}
+                  <div className="relative w-full h-48 sm:h-52 overflow-hidden border-b border-[#0acd00]/20">
+                    <Image
+                      fill
+                      src={art.image}
+                      alt={art.title}
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      className="object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
                   </div>
 
-                  <div className="pt-4 border-t border-zinc-800/80 flex justify-between items-center text-xs font-semibold">
-                    <span className="text-zinc-400 text-xs font-mono">{art.date}</span>
-                    <span className="text-[#0acd00] font-semibold text-xs sm:text-sm inline-flex items-center gap-1 group-hover:gap-2 transition-all font-['Montserrat'] cursor-pointer">
-                      Read Article <span className="transition-transform group-hover:translate-x-0.5">→</span>
-                    </span>
+                  {/* Card Body Content */}
+                  <div className="p-6 sm:p-7 flex flex-col flex-1 justify-between">
+                    <div>
+                      <div className="flex justify-between items-center mb-4">
+                        <span className="px-3.5 py-1.5 rounded-full bg-white text-black font-semibold text-xs tracking-wide border border-white shadow-sm font-['Montserrat']">
+                          {art.category}
+                        </span>
+                        <span className="text-zinc-400 text-xs font-mono">{art.readTime}</span>
+                      </div>
+
+                      <h3 className="text-white font-['Syne'] font-bold text-lg sm:text-xl leading-snug group-hover:text-[#0acd00] transition-colors mt-4 mb-3">
+                        {art.title}
+                      </h3>
+
+                      <p className="text-zinc-300 text-xs sm:text-sm font-['Montserrat'] leading-relaxed mb-6 line-clamp-3">
+                        {art.summary}
+                      </p>
+                    </div>
+
+                    <div className="pt-4 border-t border-zinc-800/80 flex justify-between items-center text-xs font-semibold">
+                      <span className="text-zinc-400 text-xs font-mono">{art.date}</span>
+                      <span className="text-[#0acd00] font-semibold text-xs sm:text-sm inline-flex items-center gap-1 group-hover:gap-2 transition-all font-['Montserrat'] cursor-pointer">
+                        Read Article <span className="transition-transform group-hover:translate-x-0.5">→</span>
+                      </span>
+                    </div>
                   </div>
                 </article>
               ))}

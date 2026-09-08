@@ -134,9 +134,9 @@ export default function HeroSection({
   titleClassName = "",
 }: HeroSectionProps = {}) {
   const cards = [
-    { src: "/images/hero_card_1.jpg", alt: "Axtrait Creative Lead" },
-    { src: "/images/hero_card_2.jpg", alt: "Axtrait Engineering Team" },
-    { src: "/images/hero_card_3.jpg", alt: "Axtrait AI Avatar Studio" },
+    { src: "/images/Hero%20card%201.png", alt: "Axtrait Creative Lead" },
+    { src: "/images/Hero%20card%202.png", alt: "Axtrait Engineering Team" },
+    { src: "/images/Hero%20card%203.png", alt: "Axtrait AI Avatar Studio" },
   ];
 
   return (
@@ -216,15 +216,21 @@ export default function HeroSection({
         {showCards && (
           <div className="hero-v2-cards">
             {cards.map((card, i) => (
-              <div key={i} className="hero-v2-card">
-                <Image
-                  src={card.src}
-                  alt={card.alt}
-                  fill
-                  sizes="(max-width: 768px) 30vw, 145px"
-                  style={{ objectFit: "cover" }}
-                  priority={i === 0}
-                />
+              <div key={i} className={`hero-v2-card-slot hero-v2-card-slot-${i + 1}`}>
+                <div className={`hero-v2-card hero-v2-card-${i + 1}`}>
+                  <div className="hero-v2-card-img-wrapper">
+                    <Image
+                      src={card.src}
+                      alt={card.alt}
+                      fill
+                      sizes="(max-width: 768px) 30vw, 145px"
+                      style={{ objectFit: "cover" }}
+                      priority={i === 0}
+                      className="hero-v2-card-img"
+                    />
+                  </div>
+                  <div className="hero-v2-card-sheen" />
+                </div>
               </div>
             ))}
           </div>

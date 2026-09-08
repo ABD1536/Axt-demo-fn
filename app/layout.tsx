@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import SmoothScroll from "@/components/SmoothScroll";
 import Preloader from "@/components/Preloader";
+import { ChatbotProvider } from "@/components/chatbot/AxtraitChatbot";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -47,7 +48,9 @@ export default function RootLayout({
       </head>
       <body suppressHydrationWarning={true}>
         <Preloader />
-        <SmoothScroll>{children}</SmoothScroll>
+        <ChatbotProvider>
+          <SmoothScroll>{children}</SmoothScroll>
+        </ChatbotProvider>
       </body>
     </html>
   );

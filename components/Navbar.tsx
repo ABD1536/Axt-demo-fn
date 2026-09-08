@@ -2,9 +2,11 @@
 
 import React, { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { Moon, ArrowRight, ChevronDown, ArrowUpRight } from "lucide-react";
+import { ArrowRight, ChevronDown, ArrowUpRight } from "lucide-react";
+import { useChatbot } from "@/components/chatbot/AxtraitChatbot";
 
 /* ── Services Mega Menu & Accordion Data ──────────────────────── */
 interface ServiceItem {
@@ -78,6 +80,7 @@ const navItems: NavItem[] = [
 /* ── Navbar Component ────────────────────────────────────────── */
 export default function Navbar() {
   const pathname = usePathname();
+  const { toggle: toggleChatbot } = useChatbot();
   const [isOpen, setIsOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<string | null>(null);
   const [isMobileServicesOpen, setIsMobileServicesOpen] = useState(false);
@@ -185,15 +188,22 @@ export default function Navbar() {
               </Link>
             </div>
 
-            {/* RIGHT: Theme Toggle + Hamburger/Close */}
+            {/* RIGHT: Chatbot Toggle + Hamburger/Close */}
             <div className="axtrait-nav-controls">
-              {/* Moon Toggle */}
+              {/* Chatbot Toggle */}
               <button
                 type="button"
-                aria-label="Toggle theme"
-                className="axtrait-nav-theme-btn"
+                aria-label="Open Axtrait AI Assistant"
+                onClick={toggleChatbot}
+                className="axtrait-nav-theme-btn !p-0.5 overflow-hidden"
               >
-                <Moon className="w-[15px] h-[15px]" />
+                <Image
+                  src="/images/Chatbot-Icon.png"
+                  alt="Axtrait AI"
+                  width={28}
+                  height={28}
+                  className="w-7 h-7 rounded-full object-cover"
+                />
               </button>
 
               {/* Hamburger / X */}

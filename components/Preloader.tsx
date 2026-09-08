@@ -7,6 +7,8 @@ export default function Preloader() {
   const [progress, setProgress] = useState(0);
   const [isPowered, setIsPowered] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
+  const [glitchStage, setGlitchStage] = useState<0 | 1 | 2>(0);
+  const [transformationSweep, setTransformationSweep] = useState(false);
   const [fadeOut, setFadeOut] = useState(false);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
@@ -396,31 +398,64 @@ export default function Preloader() {
     };
   }, []);
 
-  // ── 2. Cinematic Smooth Push / Slide Sequence Orchestrator ──
+  // ── 2. Cinematic Smooth Progression & 2-Time Realistic Glitch Orchestrator ──
   useEffect(() => {
-    // Smooth entrance trigger on mount (no blinking)
+    // Smooth entrance trigger on mount
     const entranceTimer = setTimeout(() => {
       setIsPowered(true);
     }, 60);
 
-    // Smooth continuous percentage progression (0% → 100%)
     const startTime = performance.now();
-    const DURATION = 2800;
+    const DURATION = 3000;
     let animFrame: number;
+    let glitch1Fired = false;
+    let glitch2Fired = false;
 
     const updateCounter = (currentTime: number) => {
       const elapsed = currentTime - startTime;
       const t = Math.min(1, elapsed / DURATION);
 
+      // ── Realistic Glitch Burst #1: Early Calibration Sync (~30% progress, 850ms) ──
+      if (elapsed >= 850 && !glitch1Fired) {
+        glitch1Fired = true;
+        setGlitchStage(1);
+        if (typeof window !== "undefined") {
+          window.dispatchEvent(
+            new CustomEvent("preloader-shockwave", { detail: { speed: 8 } })
+          );
+        }
+        setTimeout(() => {
+          setGlitchStage(0);
+        }, 300);
+      }
+
+      // ── Realistic Glitch Burst #2: Phase-Lock Transformation (~78% progress, 2150ms) ──
+      if (elapsed >= 2150 && !glitch2Fired) {
+        glitch2Fired = true;
+        setGlitchStage(2);
+        if (typeof window !== "undefined") {
+          window.dispatchEvent(
+            new CustomEvent("preloader-shockwave", { detail: { speed: 11 } })
+          );
+        }
+        setTimeout(() => {
+          setGlitchStage(0);
+        }, 340);
+      }
+
+      // ── Ultra-Smooth Multi-Stage Easing Curve ──
       let progressRatio: number;
-      if (t < 0.65) {
-        progressRatio = (t / 0.65) * 0.70;
-      } else if (t < 0.88) {
-        const midT = (t - 0.65) / 0.23;
-        progressRatio = 0.70 + midT * 0.20;
+      if (t < 0.28) {
+        progressRatio = (t / 0.28) * 0.30;
+      } else if (t < 0.72) {
+        const midT = (t - 0.28) / 0.44;
+        progressRatio = 0.30 + midT * 0.46;
+      } else if (t < 0.92) {
+        const endT = (t - 0.72) / 0.20;
+        progressRatio = 0.76 + endT * 0.18;
       } else {
-        const endT = (t - 0.88) / 0.12;
-        progressRatio = 0.90 + Math.min(1, endT) * 0.10;
+        const finalT = (t - 0.92) / 0.08;
+        progressRatio = 0.94 + Math.min(1, finalT) * 0.06;
       }
 
       const currentInt = Math.max(0, Math.min(100, Math.round(progressRatio * 100)));
@@ -429,17 +464,23 @@ export default function Preloader() {
       if (t < 1) {
         animFrame = requestAnimationFrame(updateCounter);
       } else {
-        // 100% Completed cleanly without sudden flashes
+        // ── 100% Completion: Transformation Event ──
         setProgress(100);
         setIsCompleted(true);
+        setTransformationSweep(true);
+        if (typeof window !== "undefined") {
+          window.dispatchEvent(
+            new CustomEvent("preloader-shockwave", { detail: { speed: 16 } })
+          );
+        }
 
         const holdTimer = setTimeout(() => {
           setFadeOut(true);
-        }, 350);
+        }, 450);
 
         const unmountTimer = setTimeout(() => {
           setLoading(false);
-        }, 1250);
+        }, 1350);
 
         return () => {
           clearTimeout(holdTimer);
@@ -458,6 +499,16 @@ export default function Preloader() {
 
   if (!loading) return null;
 
+  // Dynamic status text tracking system transformation
+  const statusText =
+    progress === 100
+      ? "SYSTEM READY // ACCESS GRANTED"
+      : progress >= 78
+      ? "CALIBRATING CORE ARCHITECTURE"
+      : progress >= 30
+      ? "SYNCHRONIZING NEURAL INTERFACE"
+      : "INITIALIZING SYSTEM";
+
   // Format percentage with wide tracking digits like "0 4 3 %"
   const formattedPercent = String(progress).padStart(3, "0").split("").join(" ") + " %";
 
@@ -472,30 +523,33 @@ export default function Preloader() {
         className="absolute inset-0 w-full h-full pointer-events-none z-0"
       />
 
-      {/* 2. Volumetric Soft Green Atmospheric Glow behind Logo (Smoothly pushes with logo) */}
+      {/* 2. Volumetric Soft Green Atmospheric Glow behind Logo */}
       <div
-        className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[190px] h-[190px] sm:w-[240px] sm:h-[240px] md:w-[300px] md:h-[300px] pointer-events-none z-[1] preloader-energy-field transform-gpu transition-all duration-[1600ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${
+        className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[210px] h-[210px] sm:w-[260px] sm:h-[260px] md:w-[320px] md:h-[320px] pointer-events-none z-[1] preloader-energy-field transform-gpu transition-all duration-[1600ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${
           isPowered ? "opacity-100 translate-y-[-50%]" : "opacity-0 translate-y-[-42%]"
-        }`}
+        } ${isCompleted ? "scale-110 brightness-125" : ""}`}
       />
 
-      {/* 3. Refined Thin Sci-Fi Orbital Scanning Ring behind Logo (Smoothly glides into place) */}
+      {/* 3. Dual Sci-Fi Orbital Scanning Rings */}
       <div
-        className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[170px] h-[170px] sm:w-[210px] sm:h-[210px] md:w-[260px] md:h-[260px] pointer-events-none z-[2] preloader-orbital-ring transform-gpu transition-all duration-[1500ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${
+        className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[180px] h-[180px] sm:w-[220px] sm:h-[220px] md:w-[270px] md:h-[270px] pointer-events-none z-[2] preloader-orbital-ring-outer transform-gpu transition-all duration-[1500ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${
           isPowered ? "opacity-100 translate-y-[-50%] scale-100" : "opacity-0 translate-y-[-44%] scale-90"
-        }`}
+        } ${isCompleted ? "completed" : ""}`}
       >
-        {/* Orbital rotating energy particle dots */}
+        {/* Inner dashed counter-rotating ring */}
+        <div className="absolute inset-3 sm:inset-4 preloader-orbital-ring-inner" />
+
+        {/* Outer rotating photon beads */}
         <div className="absolute inset-0 preloader-orbit-spin">
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-[#0acd00] shadow-[0_0_8px_#0acd00,0_0_14px_#0acd00]" />
-          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 w-1 h-1 rounded-full bg-white shadow-[0_0_6px_#0acd00]" />
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-[#0acd00] shadow-[0_0_10px_#0acd00,0_0_18px_#0acd00]" />
+          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_8px_#0acd00]" />
         </div>
       </div>
 
       {/* 4. Main Center Composition Container */}
       <div className="relative z-10 flex flex-col items-center justify-center px-4 max-w-xl w-full text-center select-none">
         
-        {/* ── REAL AXTRAIT LOGO: Deep, Ultra-Smooth Liquid Cinematic Push / Slide Entrance ── */}
+        {/* ── REAL AXTRAIT LOGO: Deep, Ultra-Smooth Liquid Cinematic Entrance ── */}
         <div
           className={`relative flex items-center justify-center transform-gpu will-change-transform transition-all duration-[1400ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${
             isPowered
@@ -503,28 +557,36 @@ export default function Preloader() {
               : "opacity-0 translate-y-9 scale-[0.91] blur-[2px]"
           } ${
             isCompleted
-              ? "scale-[1.025]"
+              ? "scale-[1.03]"
               : ""
           }`}
         >
           {/* Subtle Horizontal Sci-Fi Lens Flare Line across Center */}
           <div className="preloader-horizontal-flare pointer-events-none" />
 
-          {/* Logo Frame with High-Visibility Continuous Sci-Fi Glitch */}
-          <div className="relative inline-flex items-center justify-center overflow-visible p-1.5 preloader-glitch-container">
-            {/* Main Base Logo with Micro-Jitter */}
+          {/* Logo Frame with 2-Stage Realistic Glitch & Specular Transformation Sweep */}
+          <div
+            className={`relative inline-flex items-center justify-center overflow-visible p-1.5 preloader-glitch-container ${
+              glitchStage === 1
+                ? "glitch-burst-1"
+                : glitchStage === 2
+                ? "glitch-burst-2"
+                : ""
+            }`}
+          >
+            {/* Main Base Logo (Razor Sharp, Pristine Glow) */}
             <img
               src="/AXTRAIT%20White%20LG.png"
               alt="AXTRAIT"
               width={200}
               height={44}
               style={{ width: "auto", height: "auto" }}
-              className="w-[115px] sm:w-[145px] md:w-[170px] lg:w-[195px] max-w-[50vw] object-contain select-none pointer-events-none preloader-logo-main"
+              className="w-[120px] sm:w-[150px] md:w-[175px] lg:w-[200px] max-w-[50vw] object-contain select-none pointer-events-none preloader-logo-main"
               loading="eager"
               decoding="async"
             />
 
-            {/* High-Visibility Emerald Glitch Layer */}
+            {/* Realistic RGB Split Channel 1 (Red / Magenta Channel) */}
             <img
               src="/AXTRAIT%20White%20LG.png"
               alt=""
@@ -532,10 +594,10 @@ export default function Preloader() {
               width={200}
               height={44}
               style={{ width: "auto", height: "auto" }}
-              className="preloader-glitch-layer-green select-none pointer-events-none"
+              className="preloader-glitch-layer-rgb-red select-none pointer-events-none"
             />
 
-            {/* High-Visibility Cyan/Mint Glitch Layer */}
+            {/* Realistic RGB Split Channel 2 (Neon Emerald / Cyan Channel) */}
             <img
               src="/AXTRAIT%20White%20LG.png"
               alt=""
@@ -543,7 +605,17 @@ export default function Preloader() {
               width={200}
               height={44}
               style={{ width: "auto", height: "auto" }}
-              className="preloader-glitch-layer-cyan select-none pointer-events-none"
+              className="preloader-glitch-layer-rgb-cyan select-none pointer-events-none"
+            />
+
+            {/* High-Tech Scanline HUD Glitch Noise Overlay */}
+            <div className="preloader-scanline-overlay" />
+
+            {/* Transformation Specular Light Sweep Beam (Fires at 100%) */}
+            <div
+              className={`preloader-transformation-sweep ${
+                transformationSweep ? "active" : ""
+              }`}
             />
           </div>
         </div>
@@ -553,17 +625,27 @@ export default function Preloader() {
           
           {/* Percentage Counter (0 0 0 % → 1 0 0 %) */}
           <div className="flex items-center justify-center mb-3">
-            <span className="font-['Montserrat'] font-medium text-xs sm:text-[13px] tracking-[0.32em] text-white/90 tabular-nums">
+            <span
+              className={`font-['Montserrat'] text-xs sm:text-[13px] tracking-[0.32em] tabular-nums transition-colors duration-300 ${
+                isCompleted
+                  ? "text-[#0acd00] font-bold drop-shadow-[0_0_8px_rgba(10,205,0,0.8)]"
+                  : "text-white/90 font-medium"
+              }`}
+            >
               {formattedPercent}
             </span>
           </div>
 
           {/* Minimalist Progress Track with Glowing Endpoint Bead */}
-          <div className="w-56 sm:w-64 md:w-72 h-[2.5px] bg-white/[0.12] rounded-full relative overflow-visible backdrop-blur-xs">
+          <div className="w-56 sm:w-64 md:w-72 h-[3px] bg-white/[0.10] rounded-full relative overflow-visible backdrop-blur-xs">
             
             {/* Progress Fill Bar (Axtrait Green Gradient) */}
             <div
-              className="h-full bg-gradient-to-r from-[#006000] via-[#0acd00] to-[#34d399] rounded-full transition-[width] duration-75 ease-out shadow-[0_0_12px_rgba(10,205,0,0.9)] relative"
+              className={`h-full rounded-full transition-[width] duration-75 ease-out relative ${
+                isCompleted
+                  ? "bg-[#0acd00] shadow-[0_0_18px_rgba(10,205,0,1)]"
+                  : "bg-gradient-to-r from-[#005000] via-[#0acd00] to-[#4ade80] shadow-[0_0_12px_rgba(10,205,0,0.8)]"
+              }`}
               style={{ width: `${progress}%` }}
             >
               {/* Glowing Green/White Endpoint Orb */}
@@ -574,10 +656,24 @@ export default function Preloader() {
             </div>
           </div>
 
-          {/* Subtitle: ✦ INITIALIZING SYSTEM */}
-          <div className="mt-3.5 flex items-center justify-center gap-2 text-[9.5px] sm:text-[10.5px] tracking-[0.38em] font-['Montserrat'] uppercase text-zinc-400 font-medium preloader-text-pulse">
-            <span className="text-[#0acd00] text-[11px]">✦</span>
-            <span>INITIALIZING SYSTEM</span>
+          {/* Subtitle with dynamic status evolution */}
+          <div className="mt-3.5 flex items-center justify-center gap-2 text-[9.5px] sm:text-[10.5px] tracking-[0.38em] font-['Montserrat'] uppercase transition-colors duration-300 font-medium">
+            <span
+              className={`text-[11px] transition-colors duration-300 ${
+                isCompleted ? "text-[#0acd00]" : "text-[#0acd00]"
+              }`}
+            >
+              ✦
+            </span>
+            <span
+              className={
+                isCompleted
+                  ? "text-[#0acd00] font-bold drop-shadow-[0_0_8px_rgba(10,205,0,0.8)]"
+                  : "text-zinc-400 preloader-text-pulse"
+              }
+            >
+              {statusText}
+            </span>
           </div>
 
         </div>
